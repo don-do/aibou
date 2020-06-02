@@ -1,0 +1,172 @@
+<template>
+  <!-- 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動（flex-direction: column; とし、縦並びにする） -->
+  <div
+    v-if="photo"
+    class="photo-detail"
+    :class="{ 'photo-detail--column': fullWidth }"
+  >
+    <!-- 画像・報告者名 -->
+    <!-- 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動 -->
+    <figure
+      class="photo-detail__pane photo-detail__image"
+      @click="fullWidth = ! fullWidth"
+    >
+      <img :src="photo.url" alt="">
+      <figcaption>報告者： {{ photo.owner.name }}</figcaption>
+    </figure>
+    <!-- グッジョブボタン・ダウンロードボタン（aタグ）・コメント一覧（内容・投稿者） -->
+    <div class="photo-detail__pane">
+      <button
+        class="button button--like"
+        :class="{ 'button--liked': photo.praised_by_user }"
+        title="Praise photo"
+        @click="onPraiseClick"
+      >
+        <i class="icon ion-md-thumbs-up"></i>{{ photo.praises_count }}
+      </button>
+      <a
+        :href="`/photos/${photo.id}/download`"
+        class="button"
+        title="Download photo"
+      >
+        <i class="icon ion-md-download"></i>ダウンロード
+      </a>
+      <h2 class="photo-detail__title">
+        <i class="icon ion-md-people"></i>コメント
+      </h2>
+      <!-- コメントを表示 -->
+      <ul v-if="photo.comments.length > 0" class="photo-detail__comments">
+        <li
+          v-for="comment in photo.comments"
+          :key="comment.content"
+          class="photo-detail__commentItem"
+        >
+          <p class="photo-detail__commentBody">
+            {{ comment.content }}
+          </p>
+          <p class="photo-detail__commentInfo">
+            {{ comment.author.name }}
+          </p>
+        </li>
+      </ul>
+      <!-- 報告時にコメント投稿するのでコメントは必ず存在するが、一応「コメントはありません」メッセージを置いておく -->
+      <p v-else>まだ、コメントはありません。</p>
+      <!-- ログインしていたら、コメント投稿できる -->
+      <form v-if="isLogin" @submit.prevent="addComment" class="form">
+        <!-- エラーメッセージ -->
+        <div v-if="commentErrors" class="errors">
+          <ul v-if="commentErrors.content">
+            <li v-for="msg in commentErrors.content" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
+        <!-- 入力欄 -->
+        <textarea class="form__item" v-model="commentContent"></textarea>
+        <div class="form__button">
+          <button type="submit" class="button button--inverse">コメントを送信</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+import { OK, CREATED, UNPROCESSABLE_ENTITY } from '../util'
+
+export default {
+  props: {
+    id: { // router.jsから、/photos/:idの :id の部分に入る値がpropsとして渡ってくる
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
+      photo: null,
+      fullWidth: false, // 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動
+      commentContent: '', // コメント <textarea> 入力値を参照
+      commentErrors: null
+    }
+  },
+  computed: {
+    isLogin () { // ストアのゲッターを参照
+      return this.$store.getters['auth/check']
+    }
+  },
+  methods: {
+    async fetchPhoto () {
+      const response = await axios.get(`/api/photos/${this.id}`)
+
+      if (response.status !== OK) {
+        this.$store.commit('error/setCode', response.status)
+        return false
+      }
+
+      this.photo = response.data
+    },
+    async addComment () {
+
+      const response = await axios.post(`/api/photos/${this.id}/comments`, {
+        content: this.commentContent
+      })
+
+      // バリデーションエラー
+      if (response.status === UNPROCESSABLE_ENTITY) {
+        this.commentErrors = response.data.errors
+        return false
+      }
+
+      this.commentContent = ''
+      // エラーメッセージをクリア
+      this.commentErrors = null
+
+      // その他のエラー
+      if (response.status !== CREATED) {
+        this.$store.commit('error/setCode', response.status)
+        return false
+      }
+      // 投稿してすぐに、コメントを表示。　レスポンスデータを挿入
+      this.photo.comments = [
+        response.data,
+        ...this.photo.comments // オブジェクトを展開して、配列に追加
+      ]
+    },
+    onPraiseClick () {
+      if (! this.isLogin) {
+        alert('グッジョブ機能を使うにはログインしてください。')
+        return false
+      }
+      if (this.photo.praised_by_user) {
+        this.praiseless()
+      } else {
+        this.praise()
+      }
+    },
+    async praise () {
+      const response = await axios.put(`/api/photos/${this.id}/praise`)
+      if (response.status !== OK) {
+        this.$store.commit('error/setCode', response.status)
+        return false
+      }
+      this.photo.praises_count = this.photo.praises_count + 1
+      this.photo.praised_by_user = true
+    },
+    async praiseless () {
+      const response = await axios.delete(`/api/photos/${this.id}/praise`)
+      if (response.status !== OK) {
+        this.$store.commit('error/setCode', response.status)
+        return false
+      }
+      this.photo.praises_count = this.photo.praises_count - 1
+      this.photo.praised_by_user = false
+    }
+  },
+  watch: {
+    $route: {
+      async handler () {
+        await this.fetchPhoto()
+      },
+      immediate: true
+    }
+  }
+}
+</script>
