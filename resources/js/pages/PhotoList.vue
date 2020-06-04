@@ -3,11 +3,13 @@
     <div class="grid">
       <!-- 写真の一覧データを、データの数だけ展開 -->
       <Photo
+
         class="grid__item"
         v-for="photo in photos"
         :key="photo.id"
         :item="photo"
         @praise="onPraiseClick"
+        
       />
     </div>
     <!-- ページ送り表示 -->
@@ -35,6 +37,8 @@ export default {
   data () {
     return {
       photos: [], // 写真一覧取得API呼び出し後、写真一覧データを入れる
+      // v-forにて展開し一覧に出せなかったので、いったん断念。必要なら設計から見直す必要ありそう
+      comments: [], // 写真一覧取得API呼び出し後、コメントデータを入れる
       currentPage: 0, // <Pagination> コンポーネントに渡すための、現在ページと総ページ数
       lastPage: 0
     }
@@ -47,11 +51,12 @@ export default {
         this.$store.commit('error/setCode', response.status)
         return false
       }
-
-      this.photos = response.data.data // レスポンスのJSON取得（response.data）後、その中の配列dataを取得
+      this.photos = response.data.photos.data // レスポンスのJSON取得（response.data）後、photosの中の配列dataを取得
+      // 以下コメント取得コード。v-forにて展開し一覧に出せなかったので、いったん断念。必要なら設計から見直す必要ありそう
+      this.comments = response.data.comments.data // レスポンスのJSON取得（response.data）後、commentsの中の配列dataを取得
       // APIのレスポンスから「現在ページ」と「総ページ数」を取り出し、data変数に代入
-      this.currentPage = response.data.current_page
-      this.lastPage = response.data.last_page
+      this.currentPage = response.data.photos.current_page
+      this.lastPage = response.data.photos.last_page
     },
     onPraiseClick ({ id, praised }) {
       if (! this.$store.getters['auth/check']) {

@@ -26,8 +26,14 @@ class PhotoController extends Controller
     {
         $photos = Photo::with(['owner', 'praises']) // with()にてリレーションを事前にロード。SQL発行回数を抑える
             ->orderBy(Photo::CREATED_AT, 'desc')->paginate(); // ページング自動生成（JSONレスポンスのページ情報追加）
+
+        // commentsを写真一覧画面にも出力させたかったが、v-forの展開ができない。設計段階でphotoテーブルにtitleなど必要かも
+        // コードとして残しておくが、今回は使わない。下記returnでcompact()にてビュー側へ送っている
+        $comments = Comment::with(['author'])
+            ->orderBy(Comment::CREATED_AT, 'desc')->paginate();
+
         // コントローラーからモデルクラスのインスタンスなどをreturnすると、自動でJSONに変換・レスポンス生成
-        return $photos; // アクセサは含まれないため、JSONとして返したいアクセサは、モデルの$appendsに登録
+        return compact('photos', 'comments'); // アクセサは含まれないため、JSONとして返したいアクセサは、モデルの$appendsに登録
     }
 
     /**

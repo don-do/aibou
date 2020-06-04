@@ -3092,6 +3092,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
  // cookieからvalueを返却するコード、ステータスコードをインポート
 
  // <Photo> コンポーネントをインポート
@@ -3117,6 +3119,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       photos: [],
       // 写真一覧取得API呼び出し後、写真一覧データを入れる
+      // v-forにて展開し一覧に出せなかったので、いったん断念。必要なら設計から見直す必要ありそう
+      comments: [],
+      // 写真一覧取得API呼び出し後、コメントデータを入れる
       currentPage: 0,
       // <Pagination> コンポーネントに渡すための、現在ページと総ページ数
       lastPage: 0
@@ -3148,13 +3153,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return", false);
 
               case 6:
-                _this.photos = response.data.data; // レスポンスのJSON取得（response.data）後、その中の配列dataを取得
+                _this.photos = response.data.photos.data; // レスポンスのJSON取得（response.data）後、photosの中の配列dataを取得
+                // 以下コメント取得コード。v-forにて展開し一覧に出せなかったので、いったん断念。必要なら設計から見直す必要ありそう
+
+                _this.comments = response.data.comments.data; // レスポンスのJSON取得（response.data）後、commentsの中の配列dataを取得
                 // APIのレスポンスから「現在ページ」と「総ページ数」を取り出し、data変数に代入
 
-                _this.currentPage = response.data.current_page;
-                _this.lastPage = response.data.last_page;
+                _this.currentPage = response.data.photos.current_page;
+                _this.lastPage = response.data.photos.last_page;
 
-              case 9:
+              case 10:
               case "end":
                 return _context.stop();
             }
