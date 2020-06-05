@@ -16,6 +16,7 @@
     </figure>
     <!-- グッジョブボタン・ダウンロードボタン（aタグ）・コメント一覧（内容・投稿者） -->
     <div class="photo-detail__pane">
+      <!-- グッジョブボタン。クリック時、当PhotoDetailコンポーネント内にてイベント発生 -->
       <button
         class="button button--like"
         :class="{ 'button--liked': photo.praised_by_user }"
@@ -81,7 +82,7 @@ export default {
   },
   data () {
     return {
-      photo: null,
+      photo: null, // 写真取得API呼び出し後、写真データを入れる
       fullWidth: false, // 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動
       commentContent: '', // コメント <textarea> 入力値を参照
       commentErrors: null
@@ -101,7 +102,7 @@ export default {
         return false
       }
 
-      this.photo = response.data
+      this.photo = response.data // レスポンスのJSON取得（response.data）
     },
     async addComment () {
 
@@ -130,41 +131,54 @@ export default {
         ...this.photo.comments // オブジェクトを展開して、配列に追加
       ]
     },
+    // グッジョブボタンクリックイベント発生時
     onPraiseClick () {
+      // ログイン状態でないなら、ログインを促すアラート表示
       if (! this.isLogin) {
         alert('グッジョブ機能を使うにはログインしてください。')
         return false
       }
+      // グッジョブがついているなら、解除
       if (this.photo.praised_by_user) {
         this.praiseless()
-      } else {
+      } else { //グッジョブがついていないなら、付与
         this.praise()
       }
     },
     async praise () {
+      // グッジョブ付与。APIへの通信
       const response = await axios.put(`/api/photos/${this.id}/praise`)
+
       if (response.status !== OK) {
         this.$store.commit('error/setCode', response.status)
         return false
       }
+      // グッジョブ数を増やす
       this.photo.praises_count = this.photo.praises_count + 1
+      // 見た目を変更
       this.photo.praised_by_user = true
     },
     async praiseless () {
+      // グッジョブ削除。APIへの通信
       const response = await axios.delete(`/api/photos/${this.id}/praise`)
+
       if (response.status !== OK) {
         this.$store.commit('error/setCode', response.status)
         return false
       }
+      // グッジョブ数を減らす
       this.photo.praises_count = this.photo.praises_count - 1
+      // 見た目を戻す
       this.photo.praised_by_user = false
     }
   },
   watch: {
+    // ページの切り替わり時に、fetchPhoto()を実行。$routeを監視
     $route: {
       async handler () {
         await this.fetchPhoto()
       },
+      // コンポーネント生成時、fetchPhoto()を実行
       immediate: true
     }
   }

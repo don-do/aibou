@@ -6,7 +6,7 @@ import PhotoList from './pages/PhotoList.vue'
 import PhotoDetail from './pages/PhotoDetail.vue'
 import Login from './pages/Login.vue'
 import SystemError from './pages/errors/System.vue' // システムエラー
-import NotFound from './pages/errors/NotFound.vue'
+import NotFound from './pages/errors/NotFound.vue' // 404エラー
 
 // ストアをインポート。authストアのcheckゲッターを使用するため
 import store from './store'
@@ -51,7 +51,7 @@ const routes = [
     component: SystemError
   },
   {
-    path: '*',
+    path: '*', // 404エラー。任意のパス（定義されていないルートのパスによるアクセス）
     component: NotFound
   }
 ]

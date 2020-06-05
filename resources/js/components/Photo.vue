@@ -14,7 +14,7 @@
       :title="`View the photo by ${item.owner.name}`"
     >
       <div class="photo__controls">
-        <!-- グッジョブボタン -->
+        <!-- グッジョブボタン。クリック時、親のPhotoListコンポーネントに通知 -->
         <button
           class="photo__action photo__action--like"
           :class="{ 'photo__action--liked': item.praised_by_user }"
@@ -34,11 +34,11 @@
           <i class="icon ion-md-download"></i>
         </a>
       </div>
-      <!-- 投稿者名を出力 -->
-      <div class="photo__username">
-        {{ item.owner.name }}
-      </div>
     </RouterLink>
+    <!-- 投稿者名を出力 -->
+    <div class="photo__username">
+      {{ item.owner.name }}
+    </div>
   </div>
 </template>
 
@@ -51,6 +51,7 @@ export default {
     }
   },
   methods: {
+    // グッジョブボタン。クリック時、親のPhotoListコンポーネントに通知
     praise () {
       this.$emit('praise', {
         id: this.item.id,

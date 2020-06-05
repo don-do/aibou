@@ -24,7 +24,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        $photos = Photo::with(['owner', 'praises']) // with()にてリレーションを事前にロード。SQL発行回数を抑える
+        $photos = Photo::with(['owner', 'praises']) // with()にてリレーションを事前にロード。SQL発行回数を抑える。グッジョブリレーションもロード
             ->orderBy(Photo::CREATED_AT, 'desc')->paginate(); // ページング自動生成（JSONレスポンスのページ情報追加）
 
         // commentsを写真一覧画面にも出力させたかったが、v-forの展開ができない。設計段階でphotoテーブルにtitleなど必要かも
@@ -44,6 +44,7 @@ class PhotoController extends Controller
     public function show(string $id) // 引数でパスのパラメータidを受け取る
     {
         // comments.authorでは、PhotoモデルのcommentsリレーションからCommentを取得し、authorリレーションをたどって、Userを取得
+        // また、グッジョブリレーションもロード
         $photo = Photo::where('id', $id)->with(['owner', 'comments.author', 'praises'])->first();
 
         return $photo ?? abort(404); // 写真データが見つからなかった場合（NULLの場合）、404を返却
@@ -140,7 +141,8 @@ class PhotoController extends Controller
             abort(404);
         }
 
-        $photo->praises()->detach(Auth::user()->id);
+        // 何回実行しても1個しかグッジョブが付かないように、削除してから追加
+        $photo->praises()->detach(Auth::user()->id); // 特定の写真・ログインユーザーに紐づくグッジョブ
         $photo->praises()->attach(Auth::user()->id);
 
         return ["photo_id" => $id];

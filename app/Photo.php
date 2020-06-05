@@ -18,7 +18,7 @@ class Photo extends Model
         'praises_count', 'praised_by_user',
     ];
 
-    /** JSONに含める属性 */
+    /** JSONに含めるアクセサ */
     protected $appends = [ // ユーザー定義のアクセサをJSON表現に含める
         'url', 'praises_count', 'praised_by_user',
     ];
@@ -96,6 +96,8 @@ class Photo extends Model
         }
 
         return $this->praises->contains(function ($user) {
+            // グッジョブしたものが、ログインユーザーのIDと合致しているか判定
+            // praisesリレーションからは、ユーザーモデルのコレクションが取得できる
             return $user->id === Auth::user()->id;
         });
     }
@@ -123,7 +125,7 @@ class Photo extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function praises()
-    {
-        return $this->belongsToMany('App\User', 'praises')->withTimestamps();
+    { // prasesテーブルは、外部キーしか中身のない中間テーブルのため、モデルクラス作成せず
+        return $this->belongsToMany('App\User', 'praises')->withTimestamps(); // created_atとupdated_atカラムを更新
     }
 }

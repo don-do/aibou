@@ -1951,7 +1951,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
  // 投稿サクセスメッセージ
 
 
- // 定義したステータスコードを使用。NOT_FOUND = 404, UNAUTHORIZED = 419, INTERNAL_SERVER_ERROR = 500
+ // 定義したステータスコードを使用。NOT_FOUND = 404, UNAUTHORIZED = 419 認証切れ, INTERNAL_SERVER_ERROR = 500
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1983,7 +1983,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     break;
                   }
 
-                  _this.$router.push('/500');
+                  _this.$router.push('/500'); // 認証エラーの場合
+
 
                   _context.next = 12;
                   break;
@@ -1998,11 +1999,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return axios.get('/api/refresh-token');
 
                 case 7:
-                  // ストアのuserをクリア
+                  // ログインページ遷移のため、ストアのuserをクリア
                   _this.$store.commit('auth/setUser', null); // ログイン画面へ
 
 
-                  _this.$router.push('/login');
+                  _this.$router.push('/login'); // 404エラーの場合
+
 
                   _context.next = 12;
                   break;
@@ -2317,6 +2319,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    // グッジョブボタン。クリック時、親のPhotoListコンポーネントに通知
     praise: function praise() {
       this.$emit('praise', {
         id: this.item.id,
@@ -2830,6 +2833,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2842,6 +2846,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       photo: null,
+      // 写真取得API呼び出し後、写真データを入れる
       fullWidth: false,
       // 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動
       commentContent: '',
@@ -2881,7 +2886,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return", false);
 
               case 6:
-                _this.photo = response.data;
+                _this.photo = response.data; // レスポンスのJSON取得（response.data）
 
               case 7:
               case "end":
@@ -2942,15 +2947,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
+    // グッジョブボタンクリックイベント発生時
     onPraiseClick: function onPraiseClick() {
+      // ログイン状態でないなら、ログインを促すアラート表示
       if (!this.isLogin) {
         alert('グッジョブ機能を使うにはログインしてください。');
         return false;
-      }
+      } // グッジョブがついているなら、解除
+
 
       if (this.photo.praised_by_user) {
         this.praiseless();
       } else {
+        //グッジョブがついていないなら、付与
         this.praise();
       }
     },
@@ -2979,7 +2988,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context3.abrupt("return", false);
 
               case 6:
-                _this3.photo.praises_count = _this3.photo.praises_count + 1;
+                // グッジョブ数を増やす
+                _this3.photo.praises_count = _this3.photo.praises_count + 1; // 見た目を変更
+
                 _this3.photo.praised_by_user = true;
 
               case 8:
@@ -3015,7 +3026,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context4.abrupt("return", false);
 
               case 6:
-                _this4.photo.praises_count = _this4.photo.praises_count - 1;
+                // グッジョブ数を減らす
+                _this4.photo.praises_count = _this4.photo.praises_count - 1; // 見た目を戻す
+
                 _this4.photo.praised_by_user = false;
 
               case 8:
@@ -3028,6 +3041,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   watch: {
+    // ページの切り替わり時に、fetchPhoto()を実行。$routeを監視
     $route: {
       handler: function handler() {
         var _this5 = this;
@@ -3048,6 +3062,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }, _callee5);
         }))();
       },
+      // コンポーネント生成時、fetchPhoto()を実行
       immediate: true
     }
   }
@@ -3093,7 +3108,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
  // cookieからvalueを返却するコード、ステータスコードをインポート
 
  // <Photo> コンポーネントをインポート
@@ -3119,7 +3133,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       photos: [],
       // 写真一覧取得API呼び出し後、写真一覧データを入れる
-      // v-forにて展開し一覧に出せなかったので、いったん断念。必要なら設計から見直す必要ありそう
+      // コメントをv-forにて展開し一覧に出せず。配列が複数となるため。必要なら設計から見直す必要ありそう
       comments: [],
       // 写真一覧取得API呼び出し後、コメントデータを入れる
       currentPage: 0,
@@ -3154,7 +3168,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 _this.photos = response.data.photos.data; // レスポンスのJSON取得（response.data）後、photosの中の配列dataを取得
-                // 以下コメント取得コード。v-forにて展開し一覧に出せなかったので、いったん断念。必要なら設計から見直す必要ありそう
+                // 以下コメント取得コード。v-forにて展開し一覧に出せず。配列が複数となるため。必要なら設計から見直す必要ありそう
 
                 _this.comments = response.data.comments.data; // レスポンスのJSON取得（response.data）後、commentsの中の配列dataを取得
                 // APIのレスポンスから「現在ページ」と「総ページ数」を取り出し、data変数に代入
@@ -3170,18 +3184,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
+    // Photoコンポーネントから、イベントを受け取ったあとの処理
     onPraiseClick: function onPraiseClick(_ref) {
       var id = _ref.id,
           praised = _ref.praised;
 
+      // ログイン状態でないなら、ログインを促すアラート表示
       if (!this.$store.getters['auth/check']) {
         alert('グッジョブ機能を使うにはログインしてください。');
         return false;
-      }
+      } // グッジョブがついているなら、解除
+
 
       if (praised) {
         this.praiseless(id);
       } else {
+        //グッジョブがついていないなら、付与
         this.praise(id);
       }
     },
@@ -3211,8 +3229,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 _this2.photos = _this2.photos.map(function (photo) {
+                  // 写真のidと、レスポンスのphoto_idが一致するもの
                   if (photo.id === response.data.photo_id) {
-                    photo.praises_count += 1;
+                    // グッジョブ数を増やす
+                    photo.praises_count += 1; // 見た目を変更
+
                     photo.praised_by_user = true;
                   }
 
@@ -3253,8 +3274,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 _this3.photos = _this3.photos.map(function (photo) {
+                  // 写真のidと、レスポンスのphoto_idが一致するもの
                   if (photo.id === response.data.photo_id) {
-                    photo.praises_count -= 1;
+                    // グッジョブ数を減らす
+                    photo.praises_count -= 1; // 見た目を戻す
+
                     photo.praised_by_user = false;
                   }
 
@@ -4886,13 +4910,13 @@ var render = function() {
               },
               [_c("i", { staticClass: "icon ion-md-download" })]
             )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "photo__username" }, [
-            _vm._v("\n      " + _vm._s(_vm.item.owner.name) + "\n    ")
           ])
         ]
-      )
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "photo__username" }, [
+        _vm._v("\n    " + _vm._s(_vm.item.owner.name) + "\n  ")
+      ])
     ],
     1
   )
@@ -22853,7 +22877,8 @@ __webpack_require__.r(__webpack_exports__);
 
  // システムエラー
 
- // ストアをインポート。authストアのcheckゲッターを使用するため
+ // 404エラー
+// ストアをインポート。authストアのcheckゲッターを使用するため
 
  // VueRouterプラグインを使用。<RouterView />コンポーネントなどを使えるようになる
 
@@ -22901,6 +22926,7 @@ var routes = [{
   component: _pages_errors_System_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
   path: '*',
+  // 404エラー。任意のパス（定義されていないルートのパスによるアクセス）
   component: _pages_errors_NotFound_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
 }]; // VueRouterインスタンスを作成
 
@@ -23343,7 +23369,8 @@ var CREATED = 201;
 var INTERNAL_SERVER_ERROR = 500;
 var UNPROCESSABLE_ENTITY = 422; // laravelのバリデーションエラーは422
 
-var UNAUTHORIZED = 419;
+var UNAUTHORIZED = 419; // 認証切れ
+
 var NOT_FOUND = 404;
 
 /***/ }),

@@ -28,13 +28,15 @@ Route::get('/photos/{id}', 'PhotoController@show')->name('photo.show');
 // コメント
 Route::post('/photos/{photo}/comments', 'PhotoController@addComment')->name('photo.comment');
 
-// いいね
+// グッジョブ
 Route::put('/photos/{id}/praise', 'PhotoController@praise')->name('photo.praise');
 
-// いいね解除
+// グッジョブ解除
 Route::delete('/photos/{id}/praise', 'PhotoController@praiseless');
 
-// トークンリフレッシュ
+// トークンリフレッシュ用のAPI
+// 認証エラーの場合、ログインページへ移動。再ログインへ。
+// その際、CSRFトークンをリフレッシュ
 Route::get('/reflesh-token', function (Illuminate\Http\Request $request) {
     $request->session()->regenerateToken();
 
