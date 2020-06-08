@@ -6,13 +6,13 @@
       v-if="! isFirstPage"
       :to="`/?page=${currentPage - 1}`"
       class="button"
-    >&laquo; prev</RouterLink>
+    >&laquo; 前へ</RouterLink>
     <!-- 最後のページ以外の場合、「next（次へ）」ボタン表示 -->
     <RouterLink
       v-if="! isLastPage"
       :to="`/?page=${currentPage + 1}`"
       class="button"
-    >next &raquo;</RouterLink>
+    >次へ &raquo;</RouterLink>
   </div>
 </template>
 

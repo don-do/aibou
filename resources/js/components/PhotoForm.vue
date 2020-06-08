@@ -1,7 +1,8 @@
 <template>
   <div v-show="value" class="photo-form">
-    <h2 class="title">報告へ</h2>
+    <h2 class="title">１.写真を投稿</h2>
     <div v-show="loading" class="panel">
+      <!-- Loader.vueテンプレートが当て込まれ、「送信中...」の文言が表示される -->
       <Loader>送信中...</Loader>
     </div>
     <form v-show="! loading" class="form" @submit.prevent="submit"> <!-- デフォルトアクション（ブラウザ本来の挙動）のみ停止 -->
@@ -14,14 +15,13 @@
       <output class="form__output" v-if="preview">
         <img :src="preview" alt="">
       </output>
-
-<div v-if="commentErrors" class="errors">
-  <ul v-if="commentErrors.content">
-    <li v-for="msg in commentErrors.content" :key="msg">{{ msg }}</li>
-  </ul>
-</div>
-<textarea class="form__item" v-model="commentContent"></textarea>
-
+    <div v-if="commentErrors" class="errors">
+      <ul v-if="commentErrors.content">
+        <li v-for="msg in commentErrors.content" :key="msg">{{ msg }}</li>
+      </ul>
+    </div>
+    <h2 class="title">２.コメントを入力</h2>
+    <textarea class="form__item" v-model="commentContent"></textarea>
       <div class="form__button">
         <button type="submit" class="button button--inverse">送信</button>
       </div>
@@ -51,14 +51,9 @@ export default {
       loading: false, // ローディングを表示させるかどうか
       preview: null,
       photo: null, // 選択中のファイルを格納
-
-commentContent: '', // 画像の説明
-
-      errors: null // エラーメッセージを格納
-
-,
-commentErrors: null
-
+      commentContent: '', // 画像の説明
+      errors: null, // エラーメッセージを格納
+      commentErrors: null
     }
   },
   methods: {
@@ -98,15 +93,11 @@ commentErrors: null
     reset () {
       this.preview = ''
       this.photo = null
-
-this.commentContent = '' // 画像投稿と同時に投稿した、画像説明コメント
-
+      this.commentContent = '' // 画像投稿と同時に投稿した、画像説明コメント
       // this.$elは、コンポーネントそのもののDOM要素
       this.$el.querySelector('input[type="file"]').value = null
-
-this.errors = '' // バリデーションエラー後、送信成功したら、エラーメッセージを消去
-this.commentErrors = '' // バリデーションエラー後、送信成功したら、エラーメッセージを消去
-
+      this.errors = '' // バリデーションエラー後、送信成功したら、エラーメッセージを消去
+      this.commentErrors = '' // バリデーションエラー後、送信成功したら、エラーメッセージを消去
     },
     async submit () {
       // ローディングを表示
@@ -132,17 +123,17 @@ this.commentErrors = '' // バリデーションエラー後、送信成功し�
         return false
       }
 
-// 画像投稿後、作成した画像の詳細画面に遷移するため、URL用のidを生成
-const id = response.data.url.substr( 9, 12 );
-// 画像投稿と同時に、画像説明コメント投稿
-const responseComment = await axios.post(`/api/photos/${id}/comments`, {
-  content: this.commentContent
-})
-// 画像説明コメントバリデーションエラー
-if (responseComment.status === UNPROCESSABLE_ENTITY) {
-  this.commentErrors = responseComment.data.errors
-  return false
-}
+      // 画像投稿後、作成した画像の詳細画面に遷移するため、URL用のidを生成
+      const id = response.data.url.substr( 9, 12 );
+      // 画像投稿と同時に、画像説明コメント投稿
+      const responseComment = await axios.post(`/api/photos/${id}/comments`, {
+        content: this.commentContent
+      })
+      // 画像説明コメントバリデーションエラー
+      if (responseComment.status === UNPROCESSABLE_ENTITY) {
+        this.commentErrors = responseComment.data.errors
+        return false
+      }
 
       this.reset()
       // 自動的にフォームが閉じるよう、inputイベントを発行。それに伴い、falseを発行

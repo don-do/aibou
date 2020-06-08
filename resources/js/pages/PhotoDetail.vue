@@ -8,14 +8,14 @@
     <!-- 画像・報告者名 -->
     <!-- 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動 -->
     <figure
-      class="photo-detail__pane photo-detail__image"
+      class="photo-detail__panel photo-detail__image"
       @click="fullWidth = ! fullWidth"
     >
       <img :src="photo.url" alt="">
       <figcaption>報告者： {{ photo.owner.name }}</figcaption>
     </figure>
     <!-- グッジョブボタン・ダウンロードボタン（aタグ）・コメント一覧（内容・投稿者） -->
-    <div class="photo-detail__pane">
+    <div class="photo-detail__panel">
       <!-- グッジョブボタン。クリック時、当PhotoDetailコンポーネント内にてイベント発生 -->
       <button
         class="button button--like"

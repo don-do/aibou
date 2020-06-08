@@ -2405,8 +2405,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // 選択中のファイルを格納
       commentContent: '',
       // 画像の説明
-      errors: null // エラーメッセージを格納
-      ,
+      errors: null,
+      // エラーメッセージを格納
       commentErrors: null
     };
   },
@@ -4651,7 +4651,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "loader__item loader__item--heart" }, [
+    return _c("div", { staticClass: "loader__item loader__item--circle" }, [
       _c("div")
     ])
   }
@@ -4813,7 +4813,7 @@ var render = function() {
               staticClass: "button",
               attrs: { to: "/?page=" + (_vm.currentPage - 1) }
             },
-            [_vm._v("« prev")]
+            [_vm._v("« 前へ")]
           )
         : _vm._e(),
       _vm._v(" "),
@@ -4824,7 +4824,7 @@ var render = function() {
               staticClass: "button",
               attrs: { to: "/?page=" + (_vm.currentPage + 1) }
             },
-            [_vm._v("next »")]
+            [_vm._v("次へ »")]
           )
         : _vm._e()
     ],
@@ -4957,7 +4957,7 @@ var render = function() {
       staticClass: "photo-form"
     },
     [
-      _c("h2", { staticClass: "title" }, [_vm._v("報告へ")]),
+      _c("h2", { staticClass: "title" }, [_vm._v("１.写真を投稿")]),
       _vm._v(" "),
       _c(
         "div",
@@ -5035,6 +5035,8 @@ var render = function() {
                   : _vm._e()
               ])
             : _vm._e(),
+          _vm._v(" "),
+          _c("h2", { staticClass: "title" }, [_vm._v("２.コメントを入力")]),
           _vm._v(" "),
           _c("textarea", {
             directives: [
@@ -5462,7 +5464,7 @@ var render = function() {
           _c(
             "figure",
             {
-              staticClass: "photo-detail__pane photo-detail__image",
+              staticClass: "photo-detail__panel photo-detail__image",
               on: {
                 click: function($event) {
                   _vm.fullWidth = !_vm.fullWidth
@@ -5478,7 +5480,7 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "photo-detail__pane" }, [
+          _c("div", { staticClass: "photo-detail__panel" }, [
             _c(
               "button",
               {

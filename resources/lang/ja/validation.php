@@ -35,6 +35,7 @@ return [
     'digits'               => ':attributeは:digits桁にしてください',
     'digits_between'       => ':attributeは:min〜:max桁にしてください。',
     'email'                => ':attributeを正しいメールアドレスにしてください。',
+    'file'               => ':attributeは画像ファイルを使用してください。',
     'filled'               => ':attributeは必須です。',
     'exists'               => '選択された:attributeは正しくありません。',
     'image'                => ':attributeは画像にしてください。',
@@ -107,7 +108,8 @@ return [
       'name'=>'氏名',
       'email'=>'Eメール',
       'password'=>'パスワード',
-      'content'=>'送信時、コメント入力',
+      'content'=>'コメント入力',
+      'photo'=>'写真',
     ],
 
 ];
