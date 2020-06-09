@@ -55,7 +55,8 @@ export default {
     praise () {
       this.$emit('praise', {
         id: this.item.id,
-        praised: this.item.praised_by_user
+        praised: this.item.praised_by_user,
+        ownerName: this.item.owner.name
       })
     }
   }

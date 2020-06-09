@@ -2323,7 +2323,8 @@ __webpack_require__.r(__webpack_exports__);
     praise: function praise() {
       this.$emit('praise', {
         id: this.item.id,
-        praised: this.item.praised_by_user
+        praised: this.item.praised_by_user,
+        ownerName: this.item.owner.name
       });
     }
   }
@@ -2953,6 +2954,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (!this.isLogin) {
         alert('グッジョブ機能を使うにはログインしてください。');
         return false;
+      } // 自分の投稿にはグッジョブできない。画像の投稿者とログインユーザーが一致するなら、グッジョブ機能が使えない旨のアラートを表示
+
+
+      if (this.photo.owner.name === this.$store.getters['auth/username']) {
+        alert('自身の投稿には、グッジョブ機能を使えません。');
+        return false;
       } // グッジョブがついているなら、解除
 
 
@@ -3134,8 +3141,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       photos: [],
       // 写真一覧取得API呼び出し後、写真一覧データを入れる
       // コメントをv-forにて展開し一覧に出せず。配列が複数となるため。必要なら設計から見直す必要ありそう
-      comments: [],
-      // 写真一覧取得API呼び出し後、コメントデータを入れる
+      // comments: [], // 写真一覧取得API呼び出し後、コメントデータを入れる
       currentPage: 0,
       // <Pagination> コンポーネントに渡すための、現在ページと総ページ数
       lastPage: 0
@@ -3169,14 +3175,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 6:
                 _this.photos = response.data.photos.data; // レスポンスのJSON取得（response.data）後、photosの中の配列dataを取得
                 // 以下コメント取得コード。v-forにて展開し一覧に出せず。配列が複数となるため。必要なら設計から見直す必要ありそう
-
-                _this.comments = response.data.comments.data; // レスポンスのJSON取得（response.data）後、commentsの中の配列dataを取得
+                // this.comments = response.data.comments.data // レスポンスのJSON取得（response.data）後、commentsの中の配列dataを取得
                 // APIのレスポンスから「現在ページ」と「総ページ数」を取り出し、data変数に代入
 
                 _this.currentPage = response.data.photos.current_page;
                 _this.lastPage = response.data.photos.last_page;
 
-              case 10:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -3187,11 +3192,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     // Photoコンポーネントから、イベントを受け取ったあとの処理
     onPraiseClick: function onPraiseClick(_ref) {
       var id = _ref.id,
-          praised = _ref.praised;
+          praised = _ref.praised,
+          ownerName = _ref.ownerName;
 
       // ログイン状態でないなら、ログインを促すアラート表示
       if (!this.$store.getters['auth/check']) {
         alert('グッジョブ機能を使うにはログインしてください。');
+        return false;
+      } // 自分の投稿にはグッジョブできない。画像の投稿者とログインユーザーが一致するなら、グッジョブ機能が使えない旨のアラートを表示
+
+
+      if (ownerName === this.$store.getters['auth/username']) {
+        alert('自身の投稿には、グッジョブ機能を使えません。');
         return false;
       } // グッジョブがついているなら、解除
 
@@ -4739,7 +4751,7 @@ var render = function() {
                 },
                 [
                   _c("i", { staticClass: "icon ion-md-add" }),
-                  _vm._v("\n        報告へ / キャンセル\n      ")
+                  _vm._v("\n        報告へ / 中止する\n      ")
                 ]
               )
             ])

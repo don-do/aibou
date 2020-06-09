@@ -9,7 +9,7 @@
       <div v-if="isLogin" class="navbar__item">
         <button class="button button__report" @click="showForm = ! showForm">
           <i class="icon ion-md-add"></i>
-          報告へ / キャンセル
+          報告へ / 中止する
         </button>
       </div>
       <span v-if="isLogin" class="navbar__item">

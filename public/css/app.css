@@ -254,6 +254,7 @@ img {
 
 .photo-detail__commentBody {
   margin: 0 0 1rem 0;
+  white-space: pre-line; /* コメントの改行を反映 */
 }
 
 .photo-detail__commentInfo {
@@ -402,7 +403,7 @@ img {
 }
 
 .footer {
-  background: url(../images/Aibou-footer_bgcolor.png) repeat;
+  background: rgba(0,90,0,1);
   -webkit-box-align: center;
           align-items: center;
   border-top: 1px solid #f1f1f1;

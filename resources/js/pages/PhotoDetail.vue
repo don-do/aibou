@@ -138,6 +138,12 @@ export default {
         alert('グッジョブ機能を使うにはログインしてください。')
         return false
       }
+      // 自分の投稿にはグッジョブできない。画像の投稿者とログインユーザーが一致するなら、グッジョブ機能が使えない旨のアラートを表示
+      if ( this.photo.owner.name === this.$store.getters['auth/username']) {
+        alert('自身の投稿には、グッジョブ機能を使えません。')
+        return false
+      }
+
       // グッジョブがついているなら、解除
       if (this.photo.praised_by_user) {
         this.praiseless()
