@@ -16,8 +16,8 @@
       <div class="photo__controls">
         <!-- グッジョブボタン。クリック時、親のPhotoListコンポーネントに通知 -->
         <button
-          class="photo__action photo__action--like"
-          :class="{ 'photo__action--liked': item.praised_by_user }"
+          class="photo__action photo__action--praise"
+          :class="{ 'photo__action--praised': item.praised_by_user }"
           title="Praise photo"
           @click.prevent="praise"
         >
@@ -31,7 +31,7 @@
           @click.stop
           :href="`/photos/${item.id}/download`"
         >
-          <i class="icon ion-md-download"></i>
+          <i class="icon ion-md-download"></i>ダウンロード
         </a>
       </div>
     </RouterLink>

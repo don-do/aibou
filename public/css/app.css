@@ -173,23 +173,28 @@ img {
   opacity: 0.8;
   outline: none;
   padding: 0.5em 0.75em;
+  text-decoration: none; /* 一覧のダウンロードボタンのため */
+}
+
+.ion-md-download{
+  margin-right: 0.5em; /* 一覧のダウンロードボタンのため */
 }
 
 .photo__action:hover {
   opacity: 1;
 }
 
-.photo__action--like .icon {
+.photo__action--praise .icon {
   color: #e4406f;
   margin-right: 0.5em;
 }
 
-.photo__action--liked {
+.photo__action--praised {
   background: #e4406f;
   color: #fff;
 }
 
-.photo__action--liked .icon {
+.photo__action--praised .icon {
   color: #fff;
 }
 
@@ -331,21 +336,21 @@ img {
   width: 100%;
 }
 
-.button--like .icon {
+.button--praise .icon {
   color: #e4406f;
 }
 
-.button--liked {
+.button--praised {
   background: #e4406f;
   border-color: #e4406f;
   color: #fff;
 }
 
-.button--liked .icon {
+.button--praised .icon {
   color: #fff;
 }
 
-.button--liked:hover {
+.button--praised:hover {
   border-color: #e4406f;
   color: #fff;
   opacity: 0.8;

@@ -18,8 +18,8 @@
     <div class="photo-detail__panel">
       <!-- グッジョブボタン。クリック時、当PhotoDetailコンポーネント内にてイベント発生 -->
       <button
-        class="button button--like"
-        :class="{ 'button--liked': photo.praised_by_user }"
+        class="button button--praise"
+        :class="{ 'button--praised': photo.praised_by_user }"
         title="Praise photo"
         @click="onPraiseClick"
       >

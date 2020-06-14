@@ -4890,8 +4890,8 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "photo__action photo__action--like",
-                class: { "photo__action--liked": _vm.item.praised_by_user },
+                staticClass: "photo__action photo__action--praise",
+                class: { "photo__action--praised": _vm.item.praised_by_user },
                 attrs: { title: "Praise photo" },
                 on: {
                   click: function($event) {
@@ -4920,7 +4920,10 @@ var render = function() {
                   }
                 }
               },
-              [_c("i", { staticClass: "icon ion-md-download" })]
+              [
+                _c("i", { staticClass: "icon ion-md-download" }),
+                _vm._v("ダウンロード\n      ")
+              ]
             )
           ])
         ]
@@ -5496,8 +5499,8 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "button button--like",
-                class: { "button--liked": _vm.photo.praised_by_user },
+                staticClass: "button button--praise",
+                class: { "button--praised": _vm.photo.praised_by_user },
                 attrs: { title: "Praise photo" },
                 on: { click: _vm.onPraiseClick }
               },
