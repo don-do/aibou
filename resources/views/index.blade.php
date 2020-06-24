@@ -14,6 +14,7 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <link rel="icon" href="{{ asset('/Aibou-icon.png') }}" type="image/png">
 </head>
 <body>
   <div id="app"></div>
