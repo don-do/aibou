@@ -103,16 +103,11 @@ export default {
       // ローディングを表示
       this.loading = true
 
-      const formData = new FormData()// FormData APIを使用。Ajaxでファイルを送るため
+      const formData = new FormData() // FormData APIを使用。Ajaxでファイルを送るため
       formData.append('photo', this.photo)
       // LaravelでAPIを作成する場合、routes/api.phpにルートを記載するが、
       // その場合、APIにアクセスする側は/api/article/1のようにルートの先頭にapiをつける必要がある
       const response = await axios.post('/api/photos', formData)
-
-// 画像投稿後、作成した画像の詳細画面に遷移するため、URL用のidを生成
-// const id = response.data.url.substr( 9, 12 );
-// ここに ↑ のコードを置いてファイル未選択送信すると未送信のためid発行されない ↓ のエラー。reset()直前にコードを移した
-// [Vue warn]: Error in v-on handler (Promise/async): "TypeError: Cannot read property 'substr' of undefined"
 
       // 通信が終わったら、ローディングを非表示
       this.loading = false
@@ -123,17 +118,17 @@ export default {
         return false
       }
 
-      // 画像投稿後、作成した画像の詳細画面に遷移するため、URL用のidを生成
-      const id = response.data.url.substr( 9, 12 );
       // 画像投稿と同時に、画像説明コメント投稿
-      const responseComment = await axios.post(`/api/photos/${id}/comments`, {
+      const responseComment = await axios.post(`/api/photos/${response.data.id}/comments`, {
         content: this.commentContent
       })
+      // このコードを入れてしまうと、このコメントバリデに引っかかっているのに画像をpostできてしまう
+      // 画像投稿後にコメント入力できるので、今回は無しコメントバリデーション無し
       // 画像説明コメントバリデーションエラー
-      if (responseComment.status === UNPROCESSABLE_ENTITY) {
-        this.commentErrors = responseComment.data.errors
-        return false
-      }
+      // if (responseComment.status === UNPROCESSABLE_ENTITY) {
+      //   this.commentErrors = responseComment.data.errors
+      //   return false
+      // }
 
       this.reset()
       // 自動的にフォームが閉じるよう、inputイベントを発行。それに伴い、falseを発行
@@ -151,7 +146,7 @@ export default {
       })
 
       // 画像投稿後、作成した画像の詳細画面に遷移
-      this.$router.push(`/photos/${id}`)
+      this.$router.push(`/photos/${response.data.id}`)
     }
   }
 }

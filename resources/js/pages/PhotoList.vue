@@ -1,4 +1,12 @@
 <template>
+<!-- ルートエレメント。ローディングコンポーネントを追加して使用 -->
+<div>
+
+<div v-show="loading" class="photo-detail" style="display: inherit;">
+    <!-- Loader.vueテンプレートが当て込まれ、ローディング画面が表示される -->
+    <Loader></Loader>
+</div>
+
   <div class="photo-list">
     <div class="grid">
       <!-- 写真の一覧データを、データの数だけ展開 -->
@@ -14,6 +22,9 @@
     <!-- ページ送り表示 -->
     <Pagination :current-page="currentPage" :last-page="lastPage" />
   </div>
+
+</div>
+
 </template>
 
 <script>
@@ -21,10 +32,17 @@ import { OK } from '../util'// cookieからvalueを返却するコード、ス�
 import Photo from '../components/Photo.vue' // <Photo> コンポーネントをインポート
 import Pagination from '../components/Pagination.vue' // <Pagination> コンポーネントをインポート
 
+// Loaderコンポーネントをインポート
+import Loader from '../components/Loader.vue'
+
 export default {
   components: {
     Photo, // <Photo> コンポーネントを登録
-    Pagination // <Pagination> コンポーネントを登録
+    Pagination, // <Pagination> コンポーネントを登録
+
+  // Loaderコンポーネントを登録
+  Loader
+
   },
   props: { // router.jsから渡される、pageプロパティを受け取る
     page: {
@@ -39,17 +57,28 @@ export default {
       // コメントをv-forにて展開し一覧に出せず。配列が複数となるため。必要なら設計から見直す必要ありそう
       // comments: [], // 写真一覧取得API呼び出し後、コメントデータを入れる
       currentPage: 0, // <Pagination> コンポーネントに渡すための、現在ページと総ページ数
-      lastPage: 0
+      lastPage: 0,
+
+loading: false // ローディングを表示させるかどうか
+
     }
   },
   methods: {
     async fetchPhotos () {
+
+// ローディングを表示
+this.loading = true
+
       const response = await axios.get(`/api/photos/?page=${this.page}`)
 
       if (response.status !== OK) {
         this.$store.commit('error/setCode', response.status)
         return false
       }
+
+// 通信が終わったら、ローディングを非表示
+this.loading = false
+
       this.photos = response.data.photos.data // レスポンスのJSON取得（response.data）後、photosの中の配列dataを取得
       // 以下コメント取得コード。v-forにて展開し一覧に出せず。配列が複数となるため。必要なら設計から見直す必要ありそう
       // this.comments = response.data.comments.data // レスポンスのJSON取得（response.data）後、commentsの中の配列dataを取得

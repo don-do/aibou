@@ -1,4 +1,12 @@
 <template>
+<!-- ルートエレメント。ローディングコンポーネントを追加して使用 -->
+<div>
+
+<div v-show="loading" class="photo-detail" style="display: inherit;">
+    <!-- Loader.vueテンプレートが当て込まれ、ローディング画面が表示される -->
+    <Loader></Loader>
+</div>
+
   <!-- 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動（flex-direction: column; とし、縦並びにする） -->
   <div
     v-if="photo"
@@ -68,12 +76,24 @@
       </form>
     </div>
   </div>
+
+</div>
+
 </template>
 
 <script>
 import { OK, CREATED, UNPROCESSABLE_ENTITY } from '../util'
 
+// Loaderコンポーネントをインポート
+import Loader from '../components/Loader.vue'
+
 export default {
+
+components: {
+  // Loaderコンポーネントを登録
+  Loader
+},
+
   props: {
     id: { // router.jsから、/photos/:idの :id の部分に入る値がpropsとして渡ってくる
       type: String,
@@ -85,7 +105,10 @@ export default {
       photo: null, // 写真取得API呼び出し後、写真データを入れる
       fullWidth: false, // 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動
       commentContent: '', // コメント <textarea> 入力値を参照
-      commentErrors: null
+      commentErrors: null,
+
+loading: false // ローディングを表示させるかどうか
+
     }
   },
   computed: {
@@ -95,12 +118,19 @@ export default {
   },
   methods: {
     async fetchPhoto () {
+
+// ローディングを表示
+this.loading = true
+
       const response = await axios.get(`/api/photos/${this.id}`)
 
       if (response.status !== OK) {
         this.$store.commit('error/setCode', response.status)
         return false
       }
+
+// 通信が終わったら、ローディングを非表示
+this.loading = false
 
       this.photo = response.data // レスポンスのJSON取得（response.data）
     },

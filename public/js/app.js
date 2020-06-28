@@ -2184,6 +2184,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2202,6 +2205,26 @@ __webpack_require__.r(__webpack_exports__);
     username: function username() {
       return this.$store.getters['auth/username'];
     }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    // フォームの外枠をクリックすると、フォームを閉じる
+    // windowにイベントリスナーをセット
+    window.addEventListener('click', this._onBlurHandler = function (event) {
+      // フォームをクリックしても、何も操作しない。targetがコンポーネントの中に含まれているものならreturn
+      console.log(_this.$refs.elRoot.contains(event.target));
+
+      if (_this.$refs.elRoot.contains(event.target)) {
+        return;
+      }
+
+      _this.$data.showForm = false;
+    });
+  },
+  beforeDestroy: function beforeDestroy() {
+    // コンポーネントが破棄されるタイミングにイベントリスナーも消去
+    window.removeEventListener('click', this._onBlurHandler);
   }
 });
 
@@ -2462,7 +2485,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var formData, response, id, responseComment;
+        var formData, response, responseComment;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2479,10 +2502,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
                 response = _context.sent;
-                // 画像投稿後、作成した画像の詳細画面に遷移するため、URL用のidを生成
-                // const id = response.data.url.substr( 9, 12 );
-                // ここに ↑ のコードを置いてファイル未選択送信すると未送信のためid発行されない ↓ のエラー。reset()直前にコードを移した
-                // [Vue warn]: Error in v-on handler (Promise/async): "TypeError: Cannot read property 'substr' of undefined"
                 // 通信が終わったら、ローディングを非表示
                 _this2.loading = false; // 処理中断後に、バリデーションチェック。エラーメッセージを表示させるため
 
@@ -2495,33 +2514,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return", false);
 
               case 10:
-                // 画像投稿後、作成した画像の詳細画面に遷移するため、URL用のidを生成
-                id = response.data.url.substr(9, 12); // 画像投稿と同時に、画像説明コメント投稿
-
-                _context.next = 13;
-                return axios.post("/api/photos/".concat(id, "/comments"), {
+                _context.next = 12;
+                return axios.post("/api/photos/".concat(response.data.id, "/comments"), {
                   content: _this2.commentContent
                 });
 
-              case 13:
+              case 12:
                 responseComment = _context.sent;
 
-                if (!(responseComment.status === _util__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"])) {
-                  _context.next = 17;
-                  break;
-                }
-
-                _this2.commentErrors = responseComment.data.errors;
-                return _context.abrupt("return", false);
-
-              case 17:
+                // このコードを入れてしまうと、このコメントバリデに引っかかっているのに画像をpostできてしまう
+                // 画像投稿後にコメント入力できるので、今回は無しコメントバリデーション無し
+                // 画像説明コメントバリデーションエラー
+                // if (responseComment.status === UNPROCESSABLE_ENTITY) {
+                //   this.commentErrors = responseComment.data.errors
+                //   return false
+                // }
                 _this2.reset(); // 自動的にフォームが閉じるよう、inputイベントを発行。それに伴い、falseを発行
 
 
                 _this2.$emit('input', false);
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
-                  _context.next = 22;
+                  _context.next = 18;
                   break;
                 }
 
@@ -2529,7 +2543,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context.abrupt("return", false);
 
-              case 22:
+              case 18:
                 // 投稿完了後、メッセージ登録。message.jsモジュールのcontentを更新
                 _this2.$store.commit('message/setContent', {
                   content: '写真が投稿されました！',
@@ -2537,9 +2551,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }); // 画像投稿後、作成した画像の詳細画面に遷移
 
 
-                _this2.$router.push("/photos/".concat(id));
+                _this2.$router.push("/photos/".concat(response.data.id));
 
-              case 24:
+              case 20:
               case "end":
                 return _context.stop();
             }
@@ -2745,6 +2759,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
+/* harmony import */ var _components_Loader_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Loader.vue */ "./resources/js/components/Loader.vue");
 
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -2835,8 +2850,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+ // Loaderコンポーネントをインポート
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    // Loaderコンポーネントを登録
+    Loader: _components_Loader_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
   props: {
     id: {
       // router.jsから、/photos/:idの :id の部分に入る値がpropsとして渡ってくる
@@ -2852,7 +2884,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動
       commentContent: '',
       // コメント <textarea> 入力値を参照
-      commentErrors: null
+      commentErrors: null,
+      loading: false // ローディングを表示させるかどうか
+
     };
   },
   computed: {
@@ -2871,14 +2905,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                // ローディングを表示
+                _this.loading = true;
+                _context.next = 3;
                 return axios.get("/api/photos/".concat(_this.id));
 
-              case 2:
+              case 3:
                 response = _context.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context.next = 6;
+                  _context.next = 7;
                   break;
                 }
 
@@ -2886,10 +2922,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context.abrupt("return", false);
 
-              case 6:
+              case 7:
+                // 通信が終わったら、ローディングを非表示
+                _this.loading = false;
                 _this.photo = response.data; // レスポンスのJSON取得（response.data）
 
-              case 7:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -3091,6 +3129,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
 /* harmony import */ var _components_Photo_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Photo.vue */ "./resources/js/components/Photo.vue");
 /* harmony import */ var _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Pagination.vue */ "./resources/js/components/Pagination.vue");
+/* harmony import */ var _components_Loader_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Loader.vue */ "./resources/js/components/Loader.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3115,18 +3154,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
  // cookieからvalueを返却するコード、ステータスコードをインポート
 
  // <Photo> コンポーネントをインポート
 
  // <Pagination> コンポーネントをインポート
+// Loaderコンポーネントをインポート
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Photo: _components_Photo_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     // <Photo> コンポーネントを登録
-    Pagination: _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_3__["default"] // <Pagination> コンポーネントを登録
-
+    Pagination: _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    // <Pagination> コンポーネントを登録
+    // Loaderコンポーネントを登録
+    Loader: _components_Loader_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   props: {
     // router.jsから渡される、pageプロパティを受け取る
@@ -3144,7 +3198,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // comments: [], // 写真一覧取得API呼び出し後、コメントデータを入れる
       currentPage: 0,
       // <Pagination> コンポーネントに渡すための、現在ページと総ページ数
-      lastPage: 0
+      lastPage: 0,
+      loading: false // ローディングを表示させるかどうか
+
     };
   },
   methods: {
@@ -3157,14 +3213,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                // ローディングを表示
+                _this.loading = true;
+                _context.next = 3;
                 return axios.get("/api/photos/?page=".concat(_this.page));
 
-              case 2:
+              case 3:
                 response = _context.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context.next = 6;
+                  _context.next = 7;
                   break;
                 }
 
@@ -3172,7 +3230,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context.abrupt("return", false);
 
-              case 6:
+              case 7:
+                // 通信が終わったら、ローディングを非表示
+                _this.loading = false;
                 _this.photos = response.data.photos.data; // レスポンスのJSON取得（response.data）後、photosの中の配列dataを取得
                 // 以下コメント取得コード。v-forにて展開し一覧に出せず。配列が複数となるため。必要なら設計から見直す必要ありそう
                 // this.comments = response.data.comments.data // レスポンスのJSON取得（response.data）後、commentsの中の配列dataを取得
@@ -3181,7 +3241,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.currentPage = response.data.photos.current_page;
                 _this.lastPage = response.data.photos.last_page;
 
-              case 9:
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -4736,58 +4796,65 @@ var render = function() {
         _vm._v("\n  　~ 同じ目線で成長する。現場共有アプリ ~\n  ")
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "navbar__menu" }, [
-        _vm.isLogin
-          ? _c("div", { staticClass: "navbar__item" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "button button__report",
-                  on: {
-                    click: function($event) {
-                      _vm.showForm = !_vm.showForm
-                    }
-                  }
+      _c("div", { ref: "elRoot", staticClass: "root" }, [
+        _c(
+          "div",
+          { staticClass: "navbar__menu" },
+          [
+            _vm.isLogin
+              ? _c("div", { staticClass: "navbar__item" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "button button__report",
+                      on: {
+                        click: function($event) {
+                          _vm.showForm = !_vm.showForm
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "icon ion-md-add" }),
+                      _vm._v("\n          報告へ / 中止する\n        ")
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isLogin
+              ? _c("span", { staticClass: "navbar__item" }, [
+                  _vm._v("\n        " + _vm._s(_vm.username) + "\n      ")
+                ])
+              : _c(
+                  "div",
+                  { staticClass: "navbar__item" },
+                  [
+                    _c(
+                      "RouterLink",
+                      {
+                        staticClass:
+                          "button button--link button__LoginRegister--color",
+                        attrs: { to: "/login" }
+                      },
+                      [_vm._v("\n          ログイン / 登録\n        ")]
+                    )
+                  ],
+                  1
+                ),
+            _vm._v(" "),
+            _c("PhotoForm", {
+              model: {
+                value: _vm.showForm,
+                callback: function($$v) {
+                  _vm.showForm = $$v
                 },
-                [
-                  _c("i", { staticClass: "icon ion-md-add" }),
-                  _vm._v("\n        報告へ / 中止する\n      ")
-                ]
-              )
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.isLogin
-          ? _c("span", { staticClass: "navbar__item" }, [
-              _vm._v("\n      " + _vm._s(_vm.username) + "\n    ")
-            ])
-          : _c(
-              "div",
-              { staticClass: "navbar__item" },
-              [
-                _c(
-                  "RouterLink",
-                  {
-                    staticClass:
-                      "button button--link button__LoginRegister--color",
-                    attrs: { to: "/login" }
-                  },
-                  [_vm._v("\n        ログイン / 登録\n      ")]
-                )
-              ],
-              1
-            )
-      ]),
-      _vm._v(" "),
-      _c("PhotoForm", {
-        model: {
-          value: _vm.showForm,
-          callback: function($$v) {
-            _vm.showForm = $$v
-          },
-          expression: "showForm"
-        }
-      })
+                expression: "showForm"
+              }
+            })
+          ],
+          1
+        )
+      ])
     ],
     1
   )
@@ -5468,159 +5535,187 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.photo
-    ? _c(
-        "div",
-        {
-          staticClass: "photo-detail",
-          class: { "photo-detail--column": _vm.fullWidth }
-        },
-        [
-          _c(
-            "figure",
-            {
-              staticClass: "photo-detail__panel photo-detail__image",
-              on: {
-                click: function($event) {
-                  _vm.fullWidth = !_vm.fullWidth
+  return _c("div", [
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.loading,
+            expression: "loading"
+          }
+        ],
+        staticClass: "photo-detail",
+        staticStyle: { display: "inherit" }
+      },
+      [_c("Loader")],
+      1
+    ),
+    _vm._v(" "),
+    _vm.photo
+      ? _c(
+          "div",
+          {
+            staticClass: "photo-detail",
+            class: { "photo-detail--column": _vm.fullWidth }
+          },
+          [
+            _c(
+              "figure",
+              {
+                staticClass: "photo-detail__panel photo-detail__image",
+                on: {
+                  click: function($event) {
+                    _vm.fullWidth = !_vm.fullWidth
+                  }
                 }
-              }
-            },
-            [
-              _c("img", { attrs: { src: _vm.photo.url, alt: "" } }),
+              },
+              [
+                _c("img", { attrs: { src: _vm.photo.url, alt: "" } }),
+                _vm._v(" "),
+                _c("figcaption", [
+                  _vm._v("報告者： " + _vm._s(_vm.photo.owner.name))
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "photo-detail__panel" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "button button--praise",
+                  class: { "button--praised": _vm.photo.praised_by_user },
+                  attrs: { title: "Praise photo" },
+                  on: { click: _vm.onPraiseClick }
+                },
+                [
+                  _c("i", { staticClass: "icon ion-md-thumbs-up" }),
+                  _vm._v(_vm._s(_vm.photo.praises_count) + "\n      ")
+                ]
+              ),
               _vm._v(" "),
-              _c("figcaption", [
-                _vm._v("報告者： " + _vm._s(_vm.photo.owner.name))
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "photo-detail__panel" }, [
-            _c(
-              "button",
-              {
-                staticClass: "button button--praise",
-                class: { "button--praised": _vm.photo.praised_by_user },
-                attrs: { title: "Praise photo" },
-                on: { click: _vm.onPraiseClick }
-              },
-              [
-                _c("i", { staticClass: "icon ion-md-thumbs-up" }),
-                _vm._v(_vm._s(_vm.photo.praises_count) + "\n    ")
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "button",
-                attrs: {
-                  href: "/photos/" + _vm.photo.id + "/download",
-                  title: "Download photo"
-                }
-              },
-              [
-                _c("i", { staticClass: "icon ion-md-download" }),
-                _vm._v("ダウンロード\n    ")
-              ]
-            ),
-            _vm._v(" "),
-            _vm._m(0),
-            _vm._v(" "),
-            _vm.photo.comments.length > 0
-              ? _c(
-                  "ul",
-                  { staticClass: "photo-detail__comments" },
-                  _vm._l(_vm.photo.comments, function(comment) {
-                    return _c(
-                      "li",
-                      {
-                        key: comment.content,
-                        staticClass: "photo-detail__commentItem"
-                      },
-                      [
-                        _c("p", { staticClass: "photo-detail__commentBody" }, [
-                          _vm._v(
-                            "\n          " +
-                              _vm._s(comment.content) +
-                              "\n        "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("p", { staticClass: "photo-detail__commentInfo" }, [
-                          _vm._v(
-                            "\n          " +
-                              _vm._s(comment.author.name) +
-                              "\n        "
-                          )
-                        ])
-                      ]
-                    )
-                  }),
-                  0
-                )
-              : _c("p", [_vm._v("まだ、コメントはありません。")]),
-            _vm._v(" "),
-            _vm.isLogin
-              ? _c(
-                  "form",
-                  {
-                    staticClass: "form",
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.addComment($event)
-                      }
-                    }
-                  },
-                  [
-                    _vm.commentErrors
-                      ? _c("div", { staticClass: "errors" }, [
-                          _vm.commentErrors.content
-                            ? _c(
-                                "ul",
-                                _vm._l(_vm.commentErrors.content, function(
-                                  msg
-                                ) {
-                                  return _c("li", { key: msg }, [
-                                    _vm._v(_vm._s(msg))
-                                  ])
-                                }),
-                                0
-                              )
-                            : _vm._e()
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c("textarea", {
-                      directives: [
+              _c(
+                "a",
+                {
+                  staticClass: "button",
+                  attrs: {
+                    href: "/photos/" + _vm.photo.id + "/download",
+                    title: "Download photo"
+                  }
+                },
+                [
+                  _c("i", { staticClass: "icon ion-md-download" }),
+                  _vm._v("ダウンロード\n      ")
+                ]
+              ),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _vm.photo.comments.length > 0
+                ? _c(
+                    "ul",
+                    { staticClass: "photo-detail__comments" },
+                    _vm._l(_vm.photo.comments, function(comment) {
+                      return _c(
+                        "li",
                         {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.commentContent,
-                          expression: "commentContent"
-                        }
-                      ],
-                      staticClass: "form__item",
-                      domProps: { value: _vm.commentContent },
+                          key: comment.content,
+                          staticClass: "photo-detail__commentItem"
+                        },
+                        [
+                          _c(
+                            "p",
+                            { staticClass: "photo-detail__commentBody" },
+                            [
+                              _vm._v(
+                                "\n            " +
+                                  _vm._s(comment.content) +
+                                  "\n          "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            { staticClass: "photo-detail__commentInfo" },
+                            [
+                              _vm._v(
+                                "\n            " +
+                                  _vm._s(comment.author.name) +
+                                  "\n          "
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                : _c("p", [_vm._v("まだ、コメントはありません。")]),
+              _vm._v(" "),
+              _vm.isLogin
+                ? _c(
+                    "form",
+                    {
+                      staticClass: "form",
                       on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.commentContent = $event.target.value
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.addComment($event)
                         }
                       }
-                    }),
-                    _vm._v(" "),
-                    _vm._m(1)
-                  ]
-                )
-              : _vm._e()
-          ])
-        ]
-      )
-    : _vm._e()
+                    },
+                    [
+                      _vm.commentErrors
+                        ? _c("div", { staticClass: "errors" }, [
+                            _vm.commentErrors.content
+                              ? _c(
+                                  "ul",
+                                  _vm._l(_vm.commentErrors.content, function(
+                                    msg
+                                  ) {
+                                    return _c("li", { key: msg }, [
+                                      _vm._v(_vm._s(msg))
+                                    ])
+                                  }),
+                                  0
+                                )
+                              : _vm._e()
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.commentContent,
+                            expression: "commentContent"
+                          }
+                        ],
+                        staticClass: "form__item",
+                        domProps: { value: _vm.commentContent },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.commentContent = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._m(1)
+                    ]
+                  )
+                : _vm._e()
+            ])
+          ]
+        )
+      : _vm._e()
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -5629,7 +5724,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("h2", { staticClass: "photo-detail__title" }, [
       _c("i", { staticClass: "icon ion-md-people" }),
-      _vm._v("コメント\n    ")
+      _vm._v("コメント\n      ")
     ])
   },
   function() {
@@ -5666,30 +5761,50 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "photo-list" },
-    [
-      _c(
-        "div",
-        { staticClass: "grid" },
-        _vm._l(_vm.photos, function(photo) {
-          return _c("Photo", {
-            key: photo.id,
-            staticClass: "grid__item",
-            attrs: { item: photo },
-            on: { praise: _vm.onPraiseClick }
-          })
-        }),
-        1
-      ),
-      _vm._v(" "),
-      _c("Pagination", {
-        attrs: { "current-page": _vm.currentPage, "last-page": _vm.lastPage }
-      })
-    ],
-    1
-  )
+  return _c("div", [
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.loading,
+            expression: "loading"
+          }
+        ],
+        staticClass: "photo-detail",
+        staticStyle: { display: "inherit" }
+      },
+      [_c("Loader")],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "photo-list" },
+      [
+        _c(
+          "div",
+          { staticClass: "grid" },
+          _vm._l(_vm.photos, function(photo) {
+            return _c("Photo", {
+              key: photo.id,
+              staticClass: "grid__item",
+              attrs: { item: photo },
+              on: { praise: _vm.onPraiseClick }
+            })
+          }),
+          1
+        ),
+        _vm._v(" "),
+        _c("Pagination", {
+          attrs: { "current-page": _vm.currentPage, "last-page": _vm.lastPage }
+        })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

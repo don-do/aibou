@@ -68,6 +68,13 @@ class Photo extends Model
     }
 
     /**
+     * モデルの主キーを自動増分させるか否か
+     *
+     * @var boolean
+     */
+    public $incrementing = false; // save()後、idを数値（0となる）としてしまわないようにfalse
+
+    /**
      * アクセサ - url
      * @return string
      */

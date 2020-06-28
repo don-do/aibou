@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+ use \Log;
 use App\Photo;
 use App\Comment;
 use App\Http\Requests\StorePhoto;
@@ -73,7 +73,8 @@ class PhotoController extends Controller
         DB::beginTransaction();
 
         try {
-            Auth::user()->photos()->save($photo); // save直後、なぜか$photo内のidが消える
+            // save直後、$photo内のidに0が挿入されていたが、Photoモデルで$incrementingをfalseにして解決
+            Auth::user()->photos()->save($photo);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
