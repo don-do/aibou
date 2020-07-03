@@ -56,9 +56,19 @@
           <p class="photo-detail__commentInfo">
             {{ comment.author.name }}
           </p>
+
+<!-- 自分の投稿しか削除できないように。コメントの投稿者名とログインユーザー名が一致する場合のみ、コメント横に削除ボタンを表示 -->
+<div v-if="comment.author.name === username" >
+  <form @submit.prevent="delComment(comment)" class="form">
+    <div class="form__button">
+      <button type="submit" class="button button--inverse">コメントを削除</button>
+    </div>
+  </form>
+</div>
+
         </li>
       </ul>
-      <!-- 報告時にコメント投稿するのでコメントは必ず存在するが、一応「コメントはありません」メッセージを置いておく -->
+      <!-- コメントが無い場合 -->
       <p v-else>まだ、コメントはありません。</p>
       <!-- ログインしていたら、コメント投稿できる -->
       <form v-if="isLogin" @submit.prevent="addComment" class="form">
@@ -114,6 +124,9 @@ loading: false // ローディングを表示させるかどうか
   computed: {
     isLogin () { // ストアのゲッターを参照
       return this.$store.getters['auth/check']
+    },
+    username () { // 削除コメント表示・非表示のため、ログイン中のユーザーの名前を取得
+      return this.$store.getters['auth/username']
     }
   },
   methods: {
@@ -161,6 +174,20 @@ this.loading = false
         ...this.photo.comments // オブジェクトを展開して、配列に追加
       ]
     },
+
+async delComment (comment) {
+
+  if(confirm('削除します。よろしいですか？')){ //　削除する前に、アラートで確認
+
+  const response = await axios.delete(`/api/comments/${comment.id}`)
+
+  // 削除してすぐに、表示中のコメントを削除
+  const index = this.photo.comments.indexOf(comment) // 削除するコメントの配列が何番目かを取得
+  this.photo.comments.splice(index, 1) // 削除するコメントを、１つ分削除
+
+  }
+},
+
     // グッジョブボタンクリックイベント発生時
     onPraiseClick () {
       // ログイン状態でないなら、ログインを促すアラート表示

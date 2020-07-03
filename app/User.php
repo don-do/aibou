@@ -40,4 +40,13 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Photo');
     }
+
+    /**
+     * リレーションシップ - commentsテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function userComments() // ユーザーに紐づくコメント。削除時に使用
+    {
+        return $this->hasMany('App\Comment');
+    }
 }

@@ -28,6 +28,9 @@ Route::get('/photos/{id}', 'PhotoController@show')->name('photo.show');
 // コメント
 Route::post('/photos/{photo}/comments', 'PhotoController@addComment')->name('photo.comment');
 
+  // コメント削除
+  Route::delete('/comments/{id}', 'PhotoController@delComment');
+
 // グッジョブ
 Route::put('/photos/{id}/praise', 'PhotoController@praise')->name('photo.praise');
 

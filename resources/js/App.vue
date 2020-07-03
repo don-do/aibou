@@ -5,7 +5,7 @@
       <Navbar />
     </header>
     <main>
-      <div class="container">
+      <div id="container">
         <Message /> <!-- 投稿サクセスメッセージ -->
         <RouterView /> <!-- Vue Router より提供 -->
       </div>

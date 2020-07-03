@@ -1,6 +1,6 @@
 <template>
-  <div class="footer__wrapper">
-    <footer class="footer">
+  <div id="footer">
+    <footer id="footer__inner">
       <button v-if="isLogin" class="button button--link" @click="logout">
         ログアウト
       </button>

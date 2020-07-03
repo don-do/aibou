@@ -1,5 +1,5 @@
 <template>
-  <div class="container--small">
+  <div id="container--small">
     <ul class="tab">
       <li
         class="tab__item"

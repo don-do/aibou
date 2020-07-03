@@ -1,0 +1,15 @@
+#footer {
+  display: flex;
+  flex-direction: column;
+  min-height: 39vh;
+
+  &__inner {
+    background: rgba(0,90,0,1);
+    align-items: center;
+    border-top: 1px solid $grey-4;
+    display: flex;
+    height: 5rem;
+    justify-content: center;
+    margin-top: auto;
+  }
+}

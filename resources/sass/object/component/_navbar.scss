@@ -1,0 +1,45 @@
+.navbar {
+  align-items: center;
+  background: rgba(0, 128, 0, .9);
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, .2);
+  display: flex;
+  height: 4.5rem;
+  justify-content: space-between;
+  left: 0;
+  padding: 2%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 3;
+  color: #fff;
+
+  &__brand {
+    display: flex;
+    align-items: flex-end;
+    color: inherit;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-decoration: none;
+
+    &:visited {
+      color: inherit;
+    }
+
+    &:hover {
+      opacity: .6;
+    }
+  }
+
+  &__description {
+    margin-left: .5em;
+  }
+
+  &__menu {
+    align-items: center;
+    display: flex;
+  }
+
+  &__item {
+    margin-left: 1rem;
+  }
+}

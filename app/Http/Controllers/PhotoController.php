@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
- use \Log;
+
 use App\Photo;
 use App\Comment;
 use App\Http\Requests\StorePhoto;
@@ -126,7 +126,18 @@ class PhotoController extends Controller
         // コメントを取得しなおす。authorリレーションをロードするため
         $new_comment = Comment::where('id', $comment->id)->with('author')->first();
 
-        return response($new_comment, 201);
+        return response($new_comment, 201); //CREATED
+    }
+
+    /**
+     * コメント削除
+     */
+    public function delComment($comment_id)
+    {
+        // ログインユーザーに紐づくコメントのみを削除できる
+        Auth::user()->userComments()->find($comment_id)->delete();
+
+        return response(204); // NO_CONTENT
     }
 
     /**

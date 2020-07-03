@@ -21,7 +21,7 @@
           title="Praise photo"
           @click.prevent="praise"
         >
-          <i class="icon ion-md-thumbs-up"></i>{{ item.praises_count }}
+          <i class="ion ion-md-thumbs-up"></i>{{ item.praises_count }}
         </button>
         <!-- ダウンロードボタン（リンク）。サーバーへ、GETリクエスト送信 -->
         <!-- イベント伝播を抑止。「DLリンク」クリック時、親要素の「詳細ページのリンク」へのバブリング防止 -->
@@ -31,7 +31,7 @@
           @click.stop
           :href="`/photos/${item.id}/download`"
         >
-          <i class="icon ion-md-download"></i>ダウンロード
+          <i class="ion ion-md-download"></i>ダウンロード
         </a>
       </div>
     </RouterLink>

@@ -2213,8 +2213,6 @@ __webpack_require__.r(__webpack_exports__);
     // windowにイベントリスナーをセット
     window.addEventListener('click', this._onBlurHandler = function (event) {
       // フォームをクリックしても、何も操作しない。targetがコンポーネントの中に含まれているものならreturn
-      console.log(_this.$refs.elRoot.contains(event.target));
-
       if (_this.$refs.elRoot.contains(event.target)) {
         return;
       }
@@ -2861,6 +2859,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
  // Loaderコンポーネントをインポート
 
 
@@ -2893,6 +2901,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     isLogin: function isLogin() {
       // ストアのゲッターを参照
       return this.$store.getters['auth/check'];
+    },
+    username: function username() {
+      // 削除コメント表示・非表示のため、ログイン中のユーザーの名前を取得
+      return this.$store.getters['auth/username'];
     }
   },
   methods: {
@@ -2986,6 +2998,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
+    delComment: function delComment(comment) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response, index;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!confirm('削除します。よろしいですか？')) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                _context3.next = 3;
+                return axios["delete"]("/api/comments/".concat(comment.id));
+
+              case 3:
+                response = _context3.sent;
+                // 削除してすぐに、表示中のコメントを削除
+                index = _this3.photo.comments.indexOf(comment); // 削除するコメントの配列が何番目かを取得
+
+                _this3.photo.comments.splice(index, 1); // 削除するコメントを、１つ分削除
+
+
+              case 6:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
     // グッジョブボタンクリックイベント発生時
     onPraiseClick: function onPraiseClick() {
       // ログイン状態でないなら、ログインを促すアラート表示
@@ -3009,44 +3054,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     praise: function praise() {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return axios.put("/api/photos/".concat(_this3.id, "/praise"));
-
-              case 2:
-                response = _context3.sent;
-
-                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context3.next = 6;
-                  break;
-                }
-
-                _this3.$store.commit('error/setCode', response.status);
-
-                return _context3.abrupt("return", false);
-
-              case 6:
-                // グッジョブ数を増やす
-                _this3.photo.praises_count = _this3.photo.praises_count + 1; // 見た目を変更
-
-                _this3.photo.praised_by_user = true;
-
-              case 8:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    praiseless: function praiseless() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
@@ -3056,7 +3063,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return axios["delete"]("/api/photos/".concat(_this4.id, "/praise"));
+                return axios.put("/api/photos/".concat(_this4.id, "/praise"));
 
               case 2:
                 response = _context4.sent;
@@ -3071,10 +3078,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context4.abrupt("return", false);
 
               case 6:
-                // グッジョブ数を減らす
-                _this4.photo.praises_count = _this4.photo.praises_count - 1; // 見た目を戻す
+                // グッジョブ数を増やす
+                _this4.photo.praises_count = _this4.photo.praises_count + 1; // 見た目を変更
 
-                _this4.photo.praised_by_user = false;
+                _this4.photo.praised_by_user = true;
 
               case 8:
               case "end":
@@ -3083,28 +3090,66 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee4);
       }))();
+    },
+    praiseless: function praiseless() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return axios["delete"]("/api/photos/".concat(_this5.id, "/praise"));
+
+              case 2:
+                response = _context5.sent;
+
+                if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
+                  _context5.next = 6;
+                  break;
+                }
+
+                _this5.$store.commit('error/setCode', response.status);
+
+                return _context5.abrupt("return", false);
+
+              case 6:
+                // グッジョブ数を減らす
+                _this5.photo.praises_count = _this5.photo.praises_count - 1; // 見た目を戻す
+
+                _this5.photo.praised_by_user = false;
+
+              case 8:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
     }
   },
   watch: {
     // ページの切り替わり時に、fetchPhoto()を実行。$routeを監視
     $route: {
       handler: function handler() {
-        var _this5 = this;
+        var _this6 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
             while (1) {
-              switch (_context5.prev = _context5.next) {
+              switch (_context6.prev = _context6.next) {
                 case 0:
-                  _context5.next = 2;
-                  return _this5.fetchPhoto();
+                  _context6.next = 2;
+                  return _this6.fetchPhoto();
 
                 case 2:
                 case "end":
-                  return _context5.stop();
+                  return _context6.stop();
               }
             }
-          }, _callee5);
+          }, _callee6);
         }))();
       },
       // コンポーネント生成時、fetchPhoto()を実行
@@ -4628,7 +4673,7 @@ var render = function() {
       _c("main", [
         _c(
           "div",
-          { staticClass: "container" },
+          { attrs: { id: "container" } },
           [_c("Message"), _vm._v(" "), _c("RouterView")],
           1
         )
@@ -4661,10 +4706,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "footer__wrapper" }, [
+  return _c("div", { attrs: { id: "footer" } }, [
     _c(
       "footer",
-      { staticClass: "footer" },
+      { attrs: { id: "footer__inner" } },
       [
         _vm.isLogin
           ? _c(
@@ -4792,17 +4837,22 @@ var render = function() {
     { staticClass: "navbar" },
     [
       _c("RouterLink", { staticClass: "navbar__brand", attrs: { to: "/" } }, [
-        _c("img", { attrs: { src: "/images/Aibou-logo.png" } }),
-        _vm._v("\n  　~ 同じ目線で成長する。現場共有アプリ ~\n  ")
+        _c("img", {
+          attrs: { src: "/images/Aibou-logo.png", alt: "Aibou-logo" }
+        }),
+        _vm._v(" "),
+        _c("p", { staticClass: "navbar__description" }, [
+          _vm._v(" ~ 同じ目線で成長する。現場共有アプリ ~ ")
+        ])
       ]),
       _vm._v(" "),
-      _c("div", { ref: "elRoot", staticClass: "root" }, [
-        _c(
-          "div",
-          { staticClass: "navbar__menu" },
-          [
-            _vm.isLogin
-              ? _c("div", { staticClass: "navbar__item" }, [
+      _c("div", { staticClass: "navbar__menu" }, [
+        _vm.isLogin
+          ? _c("div", { staticClass: "navbar__item" }, [
+              _c(
+                "div",
+                { ref: "elRoot", staticClass: "root" },
+                [
                   _c(
                     "button",
                     {
@@ -4815,45 +4865,45 @@ var render = function() {
                     },
                     [
                       _c("i", { staticClass: "icon ion-md-add" }),
-                      _vm._v("\n          報告へ / 中止する\n        ")
+                      _vm._v("\n          報告へ\n        ")
                     ]
-                  )
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.isLogin
-              ? _c("span", { staticClass: "navbar__item" }, [
-                  _vm._v("\n        " + _vm._s(_vm.username) + "\n      ")
-                ])
-              : _c(
-                  "div",
-                  { staticClass: "navbar__item" },
-                  [
-                    _c(
-                      "RouterLink",
-                      {
-                        staticClass:
-                          "button button--link button__LoginRegister--color",
-                        attrs: { to: "/login" }
+                  ),
+                  _vm._v(" "),
+                  _c("PhotoForm", {
+                    model: {
+                      value: _vm.showForm,
+                      callback: function($$v) {
+                        _vm.showForm = $$v
                       },
-                      [_vm._v("\n          ログイン / 登録\n        ")]
-                    )
-                  ],
-                  1
-                ),
-            _vm._v(" "),
-            _c("PhotoForm", {
-              model: {
-                value: _vm.showForm,
-                callback: function($$v) {
-                  _vm.showForm = $$v
-                },
-                expression: "showForm"
-              }
-            })
-          ],
-          1
-        )
+                      expression: "showForm"
+                    }
+                  })
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.isLogin
+          ? _c("span", { staticClass: "navbar__item" }, [
+              _vm._v("\n        " + _vm._s(_vm.username) + "\n      ")
+            ])
+          : _c(
+              "div",
+              { staticClass: "navbar__item" },
+              [
+                _c(
+                  "RouterLink",
+                  {
+                    staticClass:
+                      "button button--link button__LoginRegister--color",
+                    attrs: { to: "/login" }
+                  },
+                  [_vm._v("\n        ログイン / 登録\n      ")]
+                )
+              ],
+              1
+            )
       ])
     ],
     1
@@ -4968,7 +5018,7 @@ var render = function() {
                 }
               },
               [
-                _c("i", { staticClass: "icon ion-md-thumbs-up" }),
+                _c("i", { staticClass: "ion ion-md-thumbs-up" }),
                 _vm._v(_vm._s(_vm.item.praises_count) + "\n      ")
               ]
             ),
@@ -4988,7 +5038,7 @@ var render = function() {
                 }
               },
               [
-                _c("i", { staticClass: "icon ion-md-download" }),
+                _c("i", { staticClass: "ion ion-md-download" }),
                 _vm._v("ダウンロード\n      ")
               ]
             )
@@ -5182,7 +5232,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container--small" }, [
+  return _c("div", { attrs: { id: "container--small" } }, [
     _c("ul", { staticClass: "tab" }, [
       _c(
         "li",
@@ -5647,7 +5697,25 @@ var render = function() {
                                   "\n          "
                               )
                             ]
-                          )
+                          ),
+                          _vm._v(" "),
+                          comment.author.name === _vm.username
+                            ? _c("div", [
+                                _c(
+                                  "form",
+                                  {
+                                    staticClass: "form",
+                                    on: {
+                                      submit: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.delComment(comment)
+                                      }
+                                    }
+                                  },
+                                  [_vm._m(1, true)]
+                                )
+                              ])
+                            : _vm._e()
                         ]
                       )
                     }),
@@ -5707,7 +5775,7 @@ var render = function() {
                         }
                       }),
                       _vm._v(" "),
-                      _vm._m(1)
+                      _vm._m(2)
                     ]
                   )
                 : _vm._e()
@@ -5725,6 +5793,18 @@ var staticRenderFns = [
     return _c("h2", { staticClass: "photo-detail__title" }, [
       _c("i", { staticClass: "icon ion-md-people" }),
       _vm._v("コメント\n      ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form__button" }, [
+      _c(
+        "button",
+        { staticClass: "button button--inverse", attrs: { type: "submit" } },
+        [_vm._v("コメントを削除")]
+      )
     ])
   },
   function() {
@@ -23445,7 +23525,7 @@ var mutations = {
 /*!******************************!*\
   !*** ./resources/js/util.js ***!
   \******************************/
-/*! exports provided: getCookieValue, OK, CREATED, INTERNAL_SERVER_ERROR, UNPROCESSABLE_ENTITY, UNAUTHORIZED, NOT_FOUND */
+/*! exports provided: getCookieValue, OK, CREATED, NO_CONTENT, INTERNAL_SERVER_ERROR, UNPROCESSABLE_ENTITY, UNAUTHORIZED, NOT_FOUND */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -23453,6 +23533,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookieValue", function() { return getCookieValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OK", function() { return OK; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CREATED", function() { return CREATED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NO_CONTENT", function() { return NO_CONTENT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INTERNAL_SERVER_ERROR", function() { return INTERNAL_SERVER_ERROR; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNPROCESSABLE_ENTITY", function() { return UNPROCESSABLE_ENTITY; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNAUTHORIZED", function() { return UNAUTHORIZED; });
@@ -23498,6 +23579,8 @@ function getCookieValue(searchKey) {
 
 var OK = 200;
 var CREATED = 201;
+var NO_CONTENT = 204; // delComment（コメント削除）にて使用
+
 var INTERNAL_SERVER_ERROR = 500;
 var UNPROCESSABLE_ENTITY = 422; // laravelのバリデーションエラーは422
 
@@ -23507,14 +23590,26 @@ var NOT_FOUND = 404;
 
 /***/ }),
 
+/***/ "./resources/sass/app.scss":
+/*!*********************************!*\
+  !*** ./resources/sass/app.scss ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 0:
-/*!***********************************!*\
-  !*** multi ./resources/js/app.js ***!
-  \***********************************/
+/*!*************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/aibou/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /Applications/MAMP/htdocs/aibou/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/aibou/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
