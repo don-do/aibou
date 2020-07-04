@@ -4,6 +4,7 @@
 
 @import "foundation/_reset"; /* modern-css-reset-master */
 @import "foundation/_variables";
+@import "foundation/_mixin";
 @import "foundation/_base";
 
 // ==========================================================================
@@ -23,10 +24,7 @@
 
 @import "object/component/_button";
 @import "object/component/_grid";
-@import "object/component/_form";
-@import "object/component/_photo-form";
 @import "object/component/_tab";
-@import "object/component/_navbar";
 
 // -----------------------------------------------------------------
 // Project
@@ -34,10 +32,13 @@
 
 @import "object/project/_panel";
 @import "object/project/_title";
+@import "object/project/_navbar";
 @import "object/project/_pagination";
+@import "object/project/_loader";
+@import "object/project/_form";
+@import "object/project/_photo-form";
 @import "object/project/_photo";
 @import "object/project/_photo-detail";
-@import "object/project/_loader";
 
 // -----------------------------------------------------------------
 // Utility

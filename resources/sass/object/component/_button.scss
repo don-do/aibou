@@ -1,4 +1,4 @@
-.button {
+.c-button {
   border: 1px solid $grey-3;
   border-radius: .25rem;
   color: $grey-21;
@@ -19,7 +19,7 @@
     color: $grey-5;
   }
 
-  .icon {
+  .c-icon {
     margin-right: .5em;
   }
 
@@ -44,7 +44,7 @@
     width: 100%;
   }
 
-  &__LoginRegister--color{ /* TODO -- と __ -- の統一 */
+  &__LoginRegister--color{
     color:#fff;
   }
 
@@ -53,7 +53,7 @@
   }
 
   &--praise {
-    .icon {
+    .c-icon {
       color: #222;
     }
   }
@@ -63,7 +63,7 @@
     border-color: $red;
     color: #fff;
 
-    .icon {
+    .c-icon {
       color: #fff;
     }
 
@@ -75,11 +75,11 @@
   }
 }
 
-.ion-md-thumbs-up {
+.ion-md-thumbs-up { /* フォントアイコン依存の名前のため、c-プレフィックス無し */
   margin-right: .5em; /* 一覧のグッジョブボタンの右にマージン */
 }
 
-.ion-md-download {
+.ion-md-download { /* フォントアイコン依存の名前のため、c-プレフィックス無し */
   color: #e4406f;
   margin-right: .5em; /* 一覧のダウンロードボタンの右にマージン */
 }

@@ -1,29 +1,29 @@
 <template>
-  <div v-show="value" class="photo-form">
-    <h2 class="title">１.写真を投稿</h2>
-    <div v-show="loading" class="panel">
-      <!-- Loader.vueテンプレートが当て込まれ、「送信中...」の文言が表示される -->
+  <div v-show="value" class="p-photo-form">
+    <h2 class="p-title">１.写真を投稿</h2>
+    <div v-show="loading" class="p-panel">
+      <!-- Loader.vueテンプレートを当て込み、<slot>Loading...<slot>に上書き。「送信中...」の文言を表示 -->
       <Loader>送信中...</Loader>
     </div>
-    <form v-show="! loading" class="form" @submit.prevent="submit"> <!-- デフォルトアクション（ブラウザ本来の挙動）のみ停止 -->
-      <div class="errors" v-if="errors">
+    <form v-show="! loading" class="p-form" @submit.prevent="submit"> <!-- デフォルトアクション（ブラウザ本来の挙動）のみ停止 -->
+      <div class="u-errors" v-if="errors">
         <ul v-if="errors.photo">
           <li v-for="msg in errors.photo" :key="msg">{{ msg }}</li>
         </ul>
       </div>
-      <input class="form__item" type="file" @change="onFileChange">
-      <output class="form__output" v-if="preview">
+      <input class="p-form__item" type="file" @change="onFileChange">
+      <output class="p-form__output" v-if="preview">
         <img :src="preview" alt="">
       </output>
-    <div v-if="commentErrors" class="errors">
+    <div v-if="commentErrors" class="u-errors">
       <ul v-if="commentErrors.content">
         <li v-for="msg in commentErrors.content" :key="msg">{{ msg }}</li>
       </ul>
     </div>
-    <h2 class="title">２.コメントを入力</h2>
-    <textarea class="form__item" v-model="commentContent"></textarea>
-      <div class="form__button">
-        <button type="submit" class="button button--inverse">送信</button>
+    <h2 class="p-title">２.コメントを入力</h2>
+    <textarea class="p-form__item" v-model="commentContent"></textarea>
+      <div class="p-form__button">
+        <button type="submit" class="c-button c-button--inverse">送信</button>
       </div>
     </form>
   </div>

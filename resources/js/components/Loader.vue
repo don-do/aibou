@@ -1,10 +1,9 @@
 <template>
-  <div class="loader">
-    <p class="loading__text">
-      <!-- PhotoForm.vueテンプレートの「送信中...」の文言を表示。<slot>タグを上書き -->
+  <div class="p-loader">
+    <p class="p-loading__text">
+      <!-- 画面遷移時は以下のデフォルトの文言。PhotoForm.vueにこのLoader.vueを読み込むと「送信中...」の文言に。下の<slot>タグに上書く -->
       <slot>Loading...</slot>
     </p>
-    <!-- <div></div>の部分がローディングハートの場合の下部。divタグ内に擬似要素（::beforeハート左上、::afterハート右上） -->
-    <div class="loader__item loader__item--circle"><div></div></div>
+    <div class="p-loader__item p-loader__item--circle"></div>
   </div>
 </template>

@@ -4714,13 +4714,17 @@ var render = function() {
         _vm.isLogin
           ? _c(
               "button",
-              { staticClass: "button button--link", on: { click: _vm.logout } },
+              {
+                staticClass: "c-button c-button--link",
+                on: { click: _vm.logout }
+              },
               [_vm._v("\n      ログアウト\n    ")]
             )
           : _c(
               "RouterLink",
               {
-                staticClass: "button button--link button__LoginRegister--color",
+                staticClass:
+                  "c-button c-button--link c-button__LoginRegister--color",
                 attrs: { to: "/login" }
               },
               [_vm._v("\n      ログイン / 登録\n    ")]
@@ -4752,27 +4756,18 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "loader" }, [
+  return _c("div", { staticClass: "p-loader" }, [
     _c(
       "p",
-      { staticClass: "loading__text" },
+      { staticClass: "p-loading__text" },
       [_vm._t("default", [_vm._v("Loading...")])],
       2
     ),
     _vm._v(" "),
-    _vm._m(0)
+    _c("div", { staticClass: "p-loader__item p-loader__item--circle" })
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "loader__item loader__item--circle" }, [
-      _c("div")
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -4805,7 +4800,7 @@ var render = function() {
           expression: "message"
         }
       ],
-      staticClass: "message"
+      staticClass: "u-message"
     },
     [_vm._v("\n  " + _vm._s(_vm.message) + "\n")]
   )
@@ -4834,21 +4829,21 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "nav",
-    { staticClass: "navbar" },
+    { staticClass: "p-navbar" },
     [
-      _c("RouterLink", { staticClass: "navbar__brand", attrs: { to: "/" } }, [
+      _c("RouterLink", { staticClass: "p-navbar__brand", attrs: { to: "/" } }, [
         _c("img", {
           attrs: { src: "/images/Aibou-logo.png", alt: "Aibou-logo" }
         }),
         _vm._v(" "),
-        _c("p", { staticClass: "navbar__description" }, [
+        _c("p", { staticClass: "p-navbar__description" }, [
           _vm._v(" ~ 同じ目線で成長する。現場共有アプリ ~ ")
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "navbar__menu" }, [
+      _c("div", { staticClass: "p-navbar__menu" }, [
         _vm.isLogin
-          ? _c("div", { staticClass: "navbar__item" }, [
+          ? _c("div", { staticClass: "p-navbar__item" }, [
               _c(
                 "div",
                 { ref: "elRoot", staticClass: "root" },
@@ -4856,7 +4851,7 @@ var render = function() {
                   _c(
                     "button",
                     {
-                      staticClass: "button button__report",
+                      staticClass: "c-button c-button__report",
                       on: {
                         click: function($event) {
                           _vm.showForm = !_vm.showForm
@@ -4864,7 +4859,7 @@ var render = function() {
                       }
                     },
                     [
-                      _c("i", { staticClass: "icon ion-md-add" }),
+                      _c("i", { staticClass: "c-icon ion-md-add" }),
                       _vm._v("\n          報告へ\n        ")
                     ]
                   ),
@@ -4885,18 +4880,18 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _vm.isLogin
-          ? _c("span", { staticClass: "navbar__item" }, [
+          ? _c("span", { staticClass: "p-navbar__item" }, [
               _vm._v("\n        " + _vm._s(_vm.username) + "\n      ")
             ])
           : _c(
               "div",
-              { staticClass: "navbar__item" },
+              { staticClass: "p-navbar__item" },
               [
                 _c(
                   "RouterLink",
                   {
                     staticClass:
-                      "button button--link button__LoginRegister--color",
+                      "c-button c-button--link c-button__LoginRegister--color",
                     attrs: { to: "/login" }
                   },
                   [_vm._v("\n        ログイン / 登録\n      ")]
@@ -4933,13 +4928,13 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "pagination" },
+    { staticClass: "p-pagination" },
     [
       !_vm.isFirstPage
         ? _c(
             "RouterLink",
             {
-              staticClass: "button",
+              staticClass: "c-button",
               attrs: { to: "/?page=" + (_vm.currentPage - 1) }
             },
             [_vm._v("« 前へ")]
@@ -4950,7 +4945,7 @@ var render = function() {
         ? _c(
             "RouterLink",
             {
-              staticClass: "button",
+              staticClass: "c-button",
               attrs: { to: "/?page=" + (_vm.currentPage + 1) }
             },
             [_vm._v("次へ »")]
@@ -4984,11 +4979,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "photo" },
+    { staticClass: "p-photo" },
     [
-      _c("figure", { staticClass: "photo__wrapper" }, [
+      _c("figure", { staticClass: "p-photo__wrapper" }, [
         _c("img", {
-          staticClass: "photo__image",
+          staticClass: "p-photo__image",
           attrs: { src: _vm.item.url, alt: "Photo by " + _vm.item.owner.name }
         })
       ]),
@@ -4996,19 +4991,19 @@ var render = function() {
       _c(
         "RouterLink",
         {
-          staticClass: "photo__overlay",
+          staticClass: "p-photo__overlay",
           attrs: {
             to: "/photos/" + _vm.item.id,
             title: "View the photo by " + _vm.item.owner.name
           }
         },
         [
-          _c("div", { staticClass: "photo__controls" }, [
+          _c("div", { staticClass: "p-photo__controls" }, [
             _c(
               "button",
               {
-                staticClass: "photo__action photo__action--praise",
-                class: { "photo__action--praised": _vm.item.praised_by_user },
+                staticClass: "p-photo__action p-photo__action--praise",
+                class: { "p-photo__action--praised": _vm.item.praised_by_user },
                 attrs: { title: "Praise photo" },
                 on: {
                   click: function($event) {
@@ -5026,7 +5021,7 @@ var render = function() {
             _c(
               "a",
               {
-                staticClass: "photo__action",
+                staticClass: "p-photo__action",
                 attrs: {
                   title: "Download photo",
                   href: "/photos/" + _vm.item.id + "/download"
@@ -5086,10 +5081,10 @@ var render = function() {
           expression: "value"
         }
       ],
-      staticClass: "photo-form"
+      staticClass: "p-photo-form"
     },
     [
-      _c("h2", { staticClass: "title" }, [_vm._v("１.写真を投稿")]),
+      _c("h2", { staticClass: "p-title" }, [_vm._v("１.写真を投稿")]),
       _vm._v(" "),
       _c(
         "div",
@@ -5102,7 +5097,7 @@ var render = function() {
               expression: "loading"
             }
           ],
-          staticClass: "panel"
+          staticClass: "p-panel"
         },
         [_c("Loader", [_vm._v("送信中...")])],
         1
@@ -5119,7 +5114,7 @@ var render = function() {
               expression: "! loading"
             }
           ],
-          staticClass: "form",
+          staticClass: "p-form",
           on: {
             submit: function($event) {
               $event.preventDefault()
@@ -5129,7 +5124,7 @@ var render = function() {
         },
         [
           _vm.errors
-            ? _c("div", { staticClass: "errors" }, [
+            ? _c("div", { staticClass: "u-errors" }, [
                 _vm.errors.photo
                   ? _c(
                       "ul",
@@ -5143,19 +5138,19 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _c("input", {
-            staticClass: "form__item",
+            staticClass: "p-form__item",
             attrs: { type: "file" },
             on: { change: _vm.onFileChange }
           }),
           _vm._v(" "),
           _vm.preview
-            ? _c("output", { staticClass: "form__output" }, [
+            ? _c("output", { staticClass: "p-form__output" }, [
                 _c("img", { attrs: { src: _vm.preview, alt: "" } })
               ])
             : _vm._e(),
           _vm._v(" "),
           _vm.commentErrors
-            ? _c("div", { staticClass: "errors" }, [
+            ? _c("div", { staticClass: "u-errors" }, [
                 _vm.commentErrors.content
                   ? _c(
                       "ul",
@@ -5168,7 +5163,7 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _c("h2", { staticClass: "title" }, [_vm._v("２.コメントを入力")]),
+          _c("h2", { staticClass: "p-title" }, [_vm._v("２.コメントを入力")]),
           _vm._v(" "),
           _c("textarea", {
             directives: [
@@ -5179,7 +5174,7 @@ var render = function() {
                 expression: "commentContent"
               }
             ],
-            staticClass: "form__item",
+            staticClass: "p-form__item",
             domProps: { value: _vm.commentContent },
             on: {
               input: function($event) {
@@ -5202,10 +5197,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form__button" }, [
+    return _c("div", { staticClass: "p-form__button" }, [
       _c(
         "button",
-        { staticClass: "button button--inverse", attrs: { type: "submit" } },
+        {
+          staticClass: "c-button c-button--inverse",
+          attrs: { type: "submit" }
+        },
         [_vm._v("送信")]
       )
     ])
@@ -5233,12 +5231,12 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "container--small" } }, [
-    _c("ul", { staticClass: "tab" }, [
+    _c("ul", { staticClass: "c-tab" }, [
       _c(
         "li",
         {
-          staticClass: "tab__item",
-          class: { "tab__item--active": _vm.tab === 1 },
+          staticClass: "c-tab__item",
+          class: { "c-tab__item--active": _vm.tab === 1 },
           on: {
             click: function($event) {
               _vm.tab = 1
@@ -5251,8 +5249,8 @@ var render = function() {
       _c(
         "li",
         {
-          staticClass: "tab__item",
-          class: { "tab__item--active": _vm.tab === 2 },
+          staticClass: "c-tab__item",
+          class: { "c-tab__item--active": _vm.tab === 2 },
           on: {
             click: function($event) {
               _vm.tab = 2
@@ -5274,13 +5272,13 @@ var render = function() {
             expression: "tab === 1"
           }
         ],
-        staticClass: "panel panel-login"
+        staticClass: "p-panel p-panel__login"
       },
       [
         _c(
           "form",
           {
-            staticClass: "form",
+            staticClass: "p-form",
             on: {
               submit: function($event) {
                 $event.preventDefault()
@@ -5290,7 +5288,7 @@ var render = function() {
           },
           [
             _vm.loginErrors
-              ? _c("div", { staticClass: "errors" }, [
+              ? _c("div", { staticClass: "u-errors" }, [
                   _vm.loginErrors.email
                     ? _c(
                         "ul",
@@ -5313,7 +5311,11 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("label", { attrs: { for: "login-email" } }, [_vm._v("Eメール")]),
+            _c(
+              "label",
+              { staticClass: "p-form__label", attrs: { for: "login-email" } },
+              [_vm._v("Eメール")]
+            ),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -5324,7 +5326,7 @@ var render = function() {
                   expression: "loginForm.email"
                 }
               ],
-              staticClass: "form__item",
+              staticClass: "p-form__item",
               attrs: { type: "text", id: "login-email" },
               domProps: { value: _vm.loginForm.email },
               on: {
@@ -5337,9 +5339,14 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _c("label", { attrs: { for: "login-password" } }, [
-              _vm._v("パスワード")
-            ]),
+            _c(
+              "label",
+              {
+                staticClass: "p-form__label",
+                attrs: { for: "login-password" }
+              },
+              [_vm._v("パスワード")]
+            ),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -5350,7 +5357,7 @@ var render = function() {
                   expression: "loginForm.password"
                 }
               ],
-              staticClass: "form__item",
+              staticClass: "p-form__item",
               attrs: { type: "password", id: "login-password" },
               domProps: { value: _vm.loginForm.password },
               on: {
@@ -5380,13 +5387,13 @@ var render = function() {
             expression: "tab === 2"
           }
         ],
-        staticClass: "panel"
+        staticClass: "p-panel"
       },
       [
         _c(
           "form",
           {
-            staticClass: "form",
+            staticClass: "p-form",
             on: {
               submit: function($event) {
                 $event.preventDefault()
@@ -5396,7 +5403,7 @@ var render = function() {
           },
           [
             _vm.registerErrors
-              ? _c("div", { staticClass: "errors" }, [
+              ? _c("div", { staticClass: "u-errors" }, [
                   _vm.registerErrors.name
                     ? _c(
                         "ul",
@@ -5429,7 +5436,11 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("label", { attrs: { for: "username" } }, [_vm._v("氏名")]),
+            _c(
+              "label",
+              { staticClass: "p-form__label", attrs: { for: "username" } },
+              [_vm._v("氏名")]
+            ),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -5440,7 +5451,7 @@ var render = function() {
                   expression: "registerForm.name"
                 }
               ],
-              staticClass: "form__item",
+              staticClass: "p-form__item",
               attrs: { type: "text", id: "username" },
               domProps: { value: _vm.registerForm.name },
               on: {
@@ -5453,7 +5464,11 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _c("label", { attrs: { for: "email" } }, [_vm._v("Eメール")]),
+            _c(
+              "label",
+              { staticClass: "p-form__label", attrs: { for: "email" } },
+              [_vm._v("Eメール")]
+            ),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -5464,7 +5479,7 @@ var render = function() {
                   expression: "registerForm.email"
                 }
               ],
-              staticClass: "form__item",
+              staticClass: "p-form__item",
               attrs: { type: "text", id: "email" },
               domProps: { value: _vm.registerForm.email },
               on: {
@@ -5477,7 +5492,11 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _c("label", { attrs: { for: "password" } }, [_vm._v("パスワード")]),
+            _c(
+              "label",
+              { staticClass: "p-form__label", attrs: { for: "password" } },
+              [_vm._v("パスワード")]
+            ),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -5488,7 +5507,7 @@ var render = function() {
                   expression: "registerForm.password"
                 }
               ],
-              staticClass: "form__item",
+              staticClass: "p-form__item",
               attrs: { type: "password", id: "password" },
               domProps: { value: _vm.registerForm.password },
               on: {
@@ -5501,9 +5520,14 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _c("label", { attrs: { for: "password-confirmation" } }, [
-              _vm._v("パスワード (確認用)")
-            ]),
+            _c(
+              "label",
+              {
+                staticClass: "p-form__label",
+                attrs: { for: "password-confirmation" }
+              },
+              [_vm._v("パスワード (確認用)")]
+            ),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -5514,7 +5538,7 @@ var render = function() {
                   expression: "registerForm.password_confirmation"
                 }
               ],
-              staticClass: "form__item",
+              staticClass: "p-form__item",
               attrs: { type: "password", id: "password-confirmation" },
               domProps: { value: _vm.registerForm.password_confirmation },
               on: {
@@ -5543,10 +5567,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form__button" }, [
+    return _c("div", { staticClass: "p-form__button" }, [
       _c(
         "button",
-        { staticClass: "button button--inverse", attrs: { type: "submit" } },
+        {
+          staticClass: "c-button c-button--inverse",
+          attrs: { type: "submit" }
+        },
         [_vm._v("ログイン")]
       )
     ])
@@ -5555,10 +5582,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form__button" }, [
+    return _c("div", { staticClass: "p-form__button" }, [
       _c(
         "button",
-        { staticClass: "button button--inverse", attrs: { type: "submit" } },
+        {
+          staticClass: "c-button c-button--inverse",
+          attrs: { type: "submit" }
+        },
         [_vm._v("登録")]
       )
     ])
@@ -5597,7 +5627,7 @@ var render = function() {
             expression: "loading"
           }
         ],
-        staticClass: "photo-detail",
+        staticClass: "p-photo-detail",
         staticStyle: { display: "inherit" }
       },
       [_c("Loader")],
@@ -5608,14 +5638,14 @@ var render = function() {
       ? _c(
           "div",
           {
-            staticClass: "photo-detail",
-            class: { "photo-detail--column": _vm.fullWidth }
+            staticClass: "p-photo-detail",
+            class: { "p-photo-detail--column": _vm.fullWidth }
           },
           [
             _c(
               "figure",
               {
-                staticClass: "photo-detail__panel photo-detail__image",
+                staticClass: "p-photo-detail__panel p-photo-detail__image",
                 on: {
                   click: function($event) {
                     _vm.fullWidth = !_vm.fullWidth
@@ -5631,17 +5661,17 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "photo-detail__panel" }, [
+            _c("div", { staticClass: "p-photo-detail__panel" }, [
               _c(
                 "button",
                 {
-                  staticClass: "button button--praise",
-                  class: { "button--praised": _vm.photo.praised_by_user },
+                  staticClass: "c-button c-button--praise",
+                  class: { "c-button--praised": _vm.photo.praised_by_user },
                   attrs: { title: "Praise photo" },
                   on: { click: _vm.onPraiseClick }
                 },
                 [
-                  _c("i", { staticClass: "icon ion-md-thumbs-up" }),
+                  _c("i", { staticClass: "c-icon ion-md-thumbs-up" }),
                   _vm._v(_vm._s(_vm.photo.praises_count) + "\n      ")
                 ]
               ),
@@ -5649,14 +5679,14 @@ var render = function() {
               _c(
                 "a",
                 {
-                  staticClass: "button",
+                  staticClass: "c-button",
                   attrs: {
                     href: "/photos/" + _vm.photo.id + "/download",
                     title: "Download photo"
                   }
                 },
                 [
-                  _c("i", { staticClass: "icon ion-md-download" }),
+                  _c("i", { staticClass: "c-icon ion-md-download" }),
                   _vm._v("ダウンロード\n      ")
                 ]
               ),
@@ -5666,18 +5696,18 @@ var render = function() {
               _vm.photo.comments.length > 0
                 ? _c(
                     "ul",
-                    { staticClass: "photo-detail__comments" },
+                    { staticClass: "p-photo-detail__comments" },
                     _vm._l(_vm.photo.comments, function(comment) {
                       return _c(
                         "li",
                         {
                           key: comment.content,
-                          staticClass: "photo-detail__commentItem"
+                          staticClass: "p-photo-detail__commentItem"
                         },
                         [
                           _c(
                             "p",
-                            { staticClass: "photo-detail__commentBody" },
+                            { staticClass: "p-photo-detail__commentBody" },
                             [
                               _vm._v(
                                 "\n            " +
@@ -5689,7 +5719,7 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "p",
-                            { staticClass: "photo-detail__commentInfo" },
+                            { staticClass: "p-photo-detail__commentInfo" },
                             [
                               _vm._v(
                                 "\n            " +
@@ -5704,7 +5734,7 @@ var render = function() {
                                 _c(
                                   "form",
                                   {
-                                    staticClass: "form",
+                                    staticClass: "p-form",
                                     on: {
                                       submit: function($event) {
                                         $event.preventDefault()
@@ -5727,7 +5757,7 @@ var render = function() {
                 ? _c(
                     "form",
                     {
-                      staticClass: "form",
+                      staticClass: "p-form",
                       on: {
                         submit: function($event) {
                           $event.preventDefault()
@@ -5737,7 +5767,7 @@ var render = function() {
                     },
                     [
                       _vm.commentErrors
-                        ? _c("div", { staticClass: "errors" }, [
+                        ? _c("div", { staticClass: "u-errors" }, [
                             _vm.commentErrors.content
                               ? _c(
                                   "ul",
@@ -5763,7 +5793,7 @@ var render = function() {
                             expression: "commentContent"
                           }
                         ],
-                        staticClass: "form__item",
+                        staticClass: "p-form__item",
                         domProps: { value: _vm.commentContent },
                         on: {
                           input: function($event) {
@@ -5790,8 +5820,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h2", { staticClass: "photo-detail__title" }, [
-      _c("i", { staticClass: "icon ion-md-people" }),
+    return _c("h2", { staticClass: "p-photo-detail__title" }, [
+      _c("i", { staticClass: "c-icon ion-md-people" }),
       _vm._v("コメント\n      ")
     ])
   },
@@ -5799,10 +5829,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form__button" }, [
+    return _c("div", { staticClass: "p-form__button" }, [
       _c(
         "button",
-        { staticClass: "button button--inverse", attrs: { type: "submit" } },
+        {
+          staticClass: "c-button c-button--inverse",
+          attrs: { type: "submit" }
+        },
         [_vm._v("コメントを削除")]
       )
     ])
@@ -5811,10 +5844,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form__button" }, [
+    return _c("div", { staticClass: "p-form__button" }, [
       _c(
         "button",
-        { staticClass: "button button--inverse", attrs: { type: "submit" } },
+        {
+          staticClass: "c-button c-button--inverse",
+          attrs: { type: "submit" }
+        },
         [_vm._v("コメントを送信")]
       )
     ])
@@ -5853,7 +5889,7 @@ var render = function() {
             expression: "loading"
           }
         ],
-        staticClass: "photo-detail",
+        staticClass: "p-photo-detail",
         staticStyle: { display: "inherit" }
       },
       [_c("Loader")],
@@ -5866,11 +5902,11 @@ var render = function() {
       [
         _c(
           "div",
-          { staticClass: "grid" },
+          { staticClass: "c-grid" },
           _vm._l(_vm.photos, function(photo) {
             return _c("Photo", {
               key: photo.id,
-              staticClass: "grid__item",
+              staticClass: "c-grid__item",
               attrs: { item: photo },
               on: { praise: _vm.onPraiseClick }
             })

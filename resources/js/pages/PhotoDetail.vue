@@ -2,7 +2,7 @@
 <!-- ルートエレメント。ローディングコンポーネントを追加して使用 -->
 <div>
 
-<div v-show="loading" class="photo-detail" style="display: inherit;">
+<div v-show="loading" class="p-photo-detail" style="display: inherit;">
     <!-- Loader.vueテンプレートが当て込まれ、ローディング画面が表示される -->
     <Loader></Loader>
 </div>
@@ -10,58 +10,58 @@
   <!-- 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動（flex-direction: column; とし、縦並びにする） -->
   <div
     v-if="photo"
-    class="photo-detail"
-    :class="{ 'photo-detail--column': fullWidth }"
+    class="p-photo-detail"
+    :class="{ 'p-photo-detail--column': fullWidth }"
   >
     <!-- 画像・報告者名 -->
     <!-- 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動 -->
     <figure
-      class="photo-detail__panel photo-detail__image"
+      class="p-photo-detail__panel p-photo-detail__image"
       @click="fullWidth = ! fullWidth"
     >
       <img :src="photo.url" alt="">
       <figcaption>報告者： {{ photo.owner.name }}</figcaption>
     </figure>
     <!-- グッジョブボタン・ダウンロードボタン（aタグ）・コメント一覧（内容・投稿者） -->
-    <div class="photo-detail__panel">
+    <div class="p-photo-detail__panel">
       <!-- グッジョブボタン。クリック時、当PhotoDetailコンポーネント内にてイベント発生 -->
       <button
-        class="button button--praise"
-        :class="{ 'button--praised': photo.praised_by_user }"
+        class="c-button c-button--praise"
+        :class="{ 'c-button--praised': photo.praised_by_user }"
         title="Praise photo"
         @click="onPraiseClick"
       >
-        <i class="icon ion-md-thumbs-up"></i>{{ photo.praises_count }}
+        <i class="c-icon ion-md-thumbs-up"></i>{{ photo.praises_count }}
       </button>
       <a
         :href="`/photos/${photo.id}/download`"
-        class="button"
+        class="c-button"
         title="Download photo"
       >
-        <i class="icon ion-md-download"></i>ダウンロード
+        <i class="c-icon ion-md-download"></i>ダウンロード
       </a>
-      <h2 class="photo-detail__title">
-        <i class="icon ion-md-people"></i>コメント
+      <h2 class="p-photo-detail__title">
+        <i class="c-icon ion-md-people"></i>コメント
       </h2>
       <!-- コメントを表示 -->
-      <ul v-if="photo.comments.length > 0" class="photo-detail__comments">
+      <ul v-if="photo.comments.length > 0" class="p-photo-detail__comments">
         <li
           v-for="comment in photo.comments"
           :key="comment.content"
-          class="photo-detail__commentItem"
+          class="p-photo-detail__commentItem"
         >
-          <p class="photo-detail__commentBody">
+          <p class="p-photo-detail__commentBody">
             {{ comment.content }}
           </p>
-          <p class="photo-detail__commentInfo">
+          <p class="p-photo-detail__commentInfo">
             {{ comment.author.name }}
           </p>
 
 <!-- 自分の投稿しか削除できないように。コメントの投稿者名とログインユーザー名が一致する場合のみ、コメント横に削除ボタンを表示 -->
 <div v-if="comment.author.name === username" >
-  <form @submit.prevent="delComment(comment)" class="form">
-    <div class="form__button">
-      <button type="submit" class="button button--inverse">コメントを削除</button>
+  <form @submit.prevent="delComment(comment)" class="p-form">
+    <div class="p-form__button">
+      <button type="submit" class="c-button c-button--inverse">コメントを削除</button>
     </div>
   </form>
 </div>
@@ -71,17 +71,17 @@
       <!-- コメントが無い場合 -->
       <p v-else>まだ、コメントはありません。</p>
       <!-- ログインしていたら、コメント投稿できる -->
-      <form v-if="isLogin" @submit.prevent="addComment" class="form">
+      <form v-if="isLogin" @submit.prevent="addComment" class="p-form">
         <!-- エラーメッセージ -->
-        <div v-if="commentErrors" class="errors">
+        <div v-if="commentErrors" class="u-errors">
           <ul v-if="commentErrors.content">
             <li v-for="msg in commentErrors.content" :key="msg">{{ msg }}</li>
           </ul>
         </div>
         <!-- 入力欄 -->
-        <textarea class="form__item" v-model="commentContent"></textarea>
-        <div class="form__button">
-          <button type="submit" class="button button--inverse">コメントを送信</button>
+        <textarea class="p-form__item" v-model="commentContent"></textarea>
+        <div class="p-form__button">
+          <button type="submit" class="c-button c-button--inverse">コメントを送信</button>
         </div>
       </form>
     </div>

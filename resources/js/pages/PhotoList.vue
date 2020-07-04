@@ -2,17 +2,17 @@
 <!-- ルートエレメント。ローディングコンポーネントを追加して使用 -->
 <div>
 
-<div v-show="loading" class="photo-detail" style="display: inherit;">
+<div v-show="loading" class="p-photo-detail" style="display: inherit;">
     <!-- Loader.vueテンプレートが当て込まれ、ローディング画面が表示される -->
     <Loader></Loader>
 </div>
 
   <div class="photo-list">
-    <div class="grid">
+    <div class="c-grid">
       <!-- 写真の一覧データを、データの数だけ展開 -->
       <!-- Photoコンポーネントから、イベントを受け取る -->
       <Photo
-        class="grid__item"
+        class="c-grid__item"
         v-for="photo in photos"
         :key="photo.id"
         :item="photo"

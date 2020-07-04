@@ -1,10 +1,10 @@
 <template>
   <div id="footer">
     <footer id="footer__inner">
-      <button v-if="isLogin" class="button button--link" @click="logout">
+      <button v-if="isLogin" class="c-button c-button--link" @click="logout">
         ログアウト
       </button>
-      <RouterLink v-else class="button button--link button__LoginRegister--color" to="/login">
+      <RouterLink v-else class="c-button c-button--link c-button__LoginRegister--color" to="/login">
         ログイン / 登録
       </RouterLink>
     </footer>

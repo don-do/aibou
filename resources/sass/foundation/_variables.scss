@@ -7,3 +7,6 @@ $grey-3: #dedede;
 $grey-4: #f1f1f1;
 $grey-5: #C0C0C0;
 $danger: #c7004c;
+$breakpoints: (
+  'sm': 'screen and (max-width: 559px)',
+) !default;

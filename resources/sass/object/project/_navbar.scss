@@ -1,4 +1,4 @@
-.navbar {
+.p-navbar {
   align-items: center;
   background: rgba(0, 128, 0, .9);
   box-shadow: 0 3px 8px 0 rgba(0, 0, 0, .2);
@@ -18,7 +18,7 @@
     align-items: flex-end;
     color: inherit;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     text-decoration: none;
 
     &:visited {
@@ -41,5 +41,18 @@
 
   &__item {
     margin-left: 1rem;
+  }
+
+  @include mq() {
+    display: flex;
+    position: absolute;
+    &__brand{
+      width: 20%;
+      height: 20%;
+      padding-top: 20px;
+    }
+    &__description {
+      font-size: 12px;
+    }
   }
 }
