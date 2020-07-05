@@ -7,6 +7,8 @@
     <Loader></Loader>
 </div>
 
+<i class="c-icon ion-md-search"></i><span class="ion-md-search__text">画像クリックで拡大</span>
+
   <!-- 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動（flex-direction: column; とし、縦並びにする） -->
   <div
     v-if="photo"

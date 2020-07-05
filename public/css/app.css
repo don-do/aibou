@@ -238,6 +238,14 @@ main {
   /* 一覧のダウンロードボタンの右にマージン */
 }
 
+.ion-md-search {
+  margin-right: 5px;
+}
+
+.ion-md-search__text {
+  font-size: 12px;
+}
+
 .c-grid {
   display: grid;
   grid-gap: 0 2%;
@@ -576,6 +584,14 @@ input[type=file] {
   text-align: right;
 }
 
+@media screen and (max-width: 559px) {
+  .p-photo__controls {
+    margin: -8% -8% 0 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .p-photo__action {
   background: #fff;
   border: 0;
@@ -594,8 +610,21 @@ input[type=file] {
   /* 一覧のダウンロードボタンのため */
 }
 
+@media screen and (max-width: 559px) {
+  .p-photo__action {
+    margin-left: 81%;
+    padding: 0.3em 0.75em;
+  }
+}
+
 .p-photo__action:hover {
   opacity: 1;
+}
+
+@media screen and (max-width: 559px) {
+  .p-photo__action--praise {
+    margin: 0 0 47% 64%;
+  }
 }
 
 .p-photo__action--praise .icon {
@@ -610,6 +639,12 @@ input[type=file] {
 
 .p-photo__action--praised .icon {
   color: #fff;
+}
+
+@media screen and (max-width: 559px) {
+  .p-download__text {
+    display: none;
+  }
 }
 
 .p-photo-detail {

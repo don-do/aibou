@@ -83,3 +83,11 @@
   color: #e4406f;
   margin-right: .5em; /* 一覧のダウンロードボタンの右にマージン */
 }
+
+.ion-md-search {
+  margin-right: 5px;
+
+  &__text {
+    font-size: 12px;
+  }
+}

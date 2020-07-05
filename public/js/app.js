@@ -2549,8 +2549,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 18:
                 // 投稿完了後、メッセージ登録。message.jsモジュールのcontentを更新
                 _this2.$store.commit('message/setContent', {
-                  content: '写真が投稿されました！',
-                  timeout: 4000
+                  content: '送信しました！',
+                  timeout: 2500
                 }); // 画像投稿後、作成した画像の詳細画面に遷移
 
 
@@ -2781,6 +2781,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
 //
 //
 //
@@ -5039,7 +5041,9 @@ var render = function() {
               },
               [
                 _c("i", { staticClass: "ion ion-md-download" }),
-                _vm._v("ダウンロード\n      ")
+                _c("span", { staticClass: "p-download__text" }, [
+                  _vm._v("ダウンロード")
+                ])
               ]
             )
           ])
@@ -5646,6 +5650,11 @@ var render = function() {
       [_c("Loader")],
       1
     ),
+    _vm._v(" "),
+    _c("i", { staticClass: "c-icon ion-md-search" }),
+    _c("span", { staticClass: "ion-md-search__text" }, [
+      _vm._v("画像クリックで拡大")
+    ]),
     _vm._v(" "),
     _vm.photo
       ? _c(

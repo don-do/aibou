@@ -31,7 +31,7 @@
           @click.stop
           :href="`/photos/${item.id}/download`"
         >
-          <i class="ion ion-md-download"></i>ダウンロード
+          <i class="ion ion-md-download"></i><span class="p-download__text">ダウンロード</span>
         </a>
       </div>
     </RouterLink>

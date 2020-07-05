@@ -146,8 +146,8 @@ export default {
 
       // 投稿完了後、メッセージ登録。message.jsモジュールのcontentを更新
       this.$store.commit('message/setContent', {
-        content: '写真が投稿されました！',
-        timeout: 4000
+        content: '送信しました！',
+        timeout: 2500
       })
 
       // 画像投稿後、作成した画像の詳細画面に遷移
