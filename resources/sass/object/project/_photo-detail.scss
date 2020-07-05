@@ -46,7 +46,7 @@
   }
 
   &__commentItem {
-    border-bottom: 1px solid $grey-3;
+    border-bottom: 1px solid $border-color;
     margin-bottom: 1.5rem;
     padding: 0 0 1.5rem 0;
   }
@@ -57,7 +57,7 @@
   }
 
   &__commentInfo {
-    color: $grey-2;
+    color: $text-color_transparent;
     margin: 0;
   }
 }

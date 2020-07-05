@@ -5678,7 +5678,9 @@ var render = function() {
                 _c("img", { attrs: { src: _vm.photo.url, alt: "" } }),
                 _vm._v(" "),
                 _c("figcaption", [
-                  _vm._v("報告者： " + _vm._s(_vm.photo.owner.name))
+                  _vm._v("報告者"),
+                  _c("br"),
+                  _vm._v(" " + _vm._s(_vm.photo.owner.name))
                 ])
               ]
             ),
@@ -5854,10 +5856,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "p-form__button" }, [
       _c(
         "button",
-        {
-          staticClass: "c-button c-button--inverse",
-          attrs: { type: "submit" }
-        },
+        { staticClass: "c-button c-button__del", attrs: { type: "submit" } },
         [_vm._v("コメントを削除")]
       )
     ])

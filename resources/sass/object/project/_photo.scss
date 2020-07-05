@@ -111,13 +111,13 @@
       }
 
       .icon {
-        color: $red;
+        color: $icon-color;
         margin-right: .5em;
       }
     }
 
     &--praised {
-      background: $red;
+      background: $icon-color;
       color: #fff;
 
       .icon {

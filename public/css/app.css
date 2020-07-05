@@ -225,6 +225,10 @@ main {
   opacity: 0.8;
 }
 
+.c-button__del {
+  background: #dedede;
+}
+
 .ion-md-thumbs-up {
   /* フォントアイコン依存の名前のため、c-プレフィックス無し */
   margin-right: 0.5em;

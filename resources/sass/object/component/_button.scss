@@ -1,7 +1,7 @@
 .c-button {
-  border: 1px solid $grey-3;
+  border: 1px solid $border-color;
   border-radius: .25rem;
-  color: $grey-21;
+  color: $btnText-color;
   cursor: pointer;
   display: inline-block;
   font-family: inherit;
@@ -15,8 +15,8 @@
     color 300ms ease-in-out;
 
   &:hover {
-    border-color: $grey-1;
-    color: $grey-5;
+    border-color: $btnHover-background;
+    color: $btnHover-color;
   }
 
   .c-icon {
@@ -59,8 +59,8 @@
   }
 
   &--praised {
-    background: $red;
-    border-color: $red;
+    background: $icon-color;
+    border-color: $icon-color;
     color: #fff;
 
     .c-icon {
@@ -68,10 +68,14 @@
     }
 
     &:hover {
-      border-color: $red;
+      border-color: $icon-color;
       color: #fff;
       opacity: .8;
     }
+  }
+
+  &__del {
+    background: $border-color;
   }
 }
 

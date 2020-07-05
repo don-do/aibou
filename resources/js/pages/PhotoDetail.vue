@@ -22,7 +22,7 @@
       @click="fullWidth = ! fullWidth"
     >
       <img :src="photo.url" alt="">
-      <figcaption>報告者： {{ photo.owner.name }}</figcaption>
+      <figcaption>報告者<br> {{ photo.owner.name }}</figcaption>
     </figure>
     <!-- グッジョブボタン・ダウンロードボタン（aタグ）・コメント一覧（内容・投稿者） -->
     <div class="p-photo-detail__panel">
@@ -63,7 +63,7 @@
 <div v-if="comment.author.name === username" >
   <form @submit.prevent="delComment(comment)" class="p-form">
     <div class="p-form__button">
-      <button type="submit" class="c-button c-button--inverse">コメントを削除</button>
+      <button type="submit" class="c-button c-button__del">コメントを削除</button>
     </div>
   </form>
 </div>

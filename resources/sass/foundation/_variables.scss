@@ -1,11 +1,11 @@
 $text-color: #222;
-$red: #e4406f;
-$grey-1: #333;
-$grey-2: #8a8a8a;
-$grey-21: #696969;
-$grey-3: #dedede;
-$grey-4: #f1f1f1;
-$grey-5: #C0C0C0;
+$text-color_transparent: #8a8a8a;
+$border-color: #dedede;
+$footerTop-color: #f1f1f1;
+$icon-color: #e4406f;
+$btnText-color: #696969;
+$btnHover-background: #333;
+$btnHover-color: #C0C0C0;
 $danger: #c7004c;
 $breakpoints: (
   'sm': 'screen and (max-width: 559px)',
