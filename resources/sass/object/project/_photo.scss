@@ -63,6 +63,11 @@
     text-decoration: none;
     top: 0;
     visibility: hidden;
+
+    @include mq() {
+      visibility: visible;
+      background: rgba(0, 0, 0, 0);
+    }
   }
 
   &__controls {

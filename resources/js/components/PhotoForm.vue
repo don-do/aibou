@@ -11,7 +11,12 @@
           <li v-for="msg in errors.photo" :key="msg">{{ msg }}</li>
         </ul>
       </div>
-      <input class="p-form__item" type="file" @change="onFileChange">
+
+<label class="c-button c-button__report p-form-file-btn">
+  <span>ファイルを選択</span>
+  <input class="p-form__item" type="file" @change="onFileChange">
+</label>
+
       <output class="p-form__output" v-if="preview">
         <img :src="preview" alt="">
       </output>

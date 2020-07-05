@@ -16,7 +16,7 @@
           <PhotoForm v-model="showForm" />
         </div>
       </div>
-        <span v-if="isLogin" class="p-navbar__item">
+        <span v-if="isLogin" class="p-navbar__item p-navbar__username">
           {{ username }}
         </span>
       <div v-else class="p-navbar__item">

@@ -22,3 +22,13 @@
     text-align: right;
   }
 }
+
+.p-form-file-btn {
+  display: flex;
+  justify-content: center;
+  background: rgb(239, 239, 239);
+}
+
+input[type="file"] { // デフォルトの「ファイルを選択」ボタンを非表示
+  display: none;
+}

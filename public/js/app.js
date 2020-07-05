@@ -2403,6 +2403,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 // レスポンスコードの定義をインポート。エラー処理のため
  // Loaderコンポーネントをインポート
 
@@ -4880,7 +4885,7 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _vm.isLogin
-          ? _c("span", { staticClass: "p-navbar__item" }, [
+          ? _c("span", { staticClass: "p-navbar__item p-navbar__username" }, [
               _vm._v("\n        " + _vm._s(_vm.username) + "\n      ")
             ])
           : _c(
@@ -5137,11 +5142,19 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _c("input", {
-            staticClass: "p-form__item",
-            attrs: { type: "file" },
-            on: { change: _vm.onFileChange }
-          }),
+          _c(
+            "label",
+            { staticClass: "c-button c-button__report p-form-file-btn" },
+            [
+              _c("span", [_vm._v("ファイルを選択")]),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "p-form__item",
+                attrs: { type: "file" },
+                on: { change: _vm.onFileChange }
+              })
+            ]
+          ),
           _vm._v(" "),
           _vm.preview
             ? _c("output", { staticClass: "p-form__output" }, [

@@ -3,6 +3,10 @@
   flex-direction: column;
   min-height: 39vh;
 
+  @include mq() {
+    min-height: 27vh;
+  }
+
   &__inner {
     background: rgba(0,90,0,1);
     align-items: center;

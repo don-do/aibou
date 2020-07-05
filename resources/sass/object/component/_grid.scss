@@ -3,6 +3,10 @@
   grid-gap: 0 2%;
   grid-template-columns: repeat(auto-fit, 32%);
 
+  @include mq() {
+    grid-template-columns: repeat(auto-fit, 49%);
+  }
+
   &__item {
     margin-bottom: 2rem;
   }

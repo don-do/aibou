@@ -10,4 +10,8 @@
   right: 2%;
   top: 3.5rem;
   width: 90%;
+
+  @include mq() {
+    width: 350%;
+  }
 }
