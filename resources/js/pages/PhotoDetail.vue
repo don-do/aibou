@@ -1,111 +1,100 @@
 <template>
-<!-- ルートエレメント。ローディングコンポーネントを追加して使用 -->
-<div>
-
-<div v-show="loading" class="p-photo-detail" style="display: inherit;">
-    <!-- Loader.vueテンプレートが当て込まれ、ローディング画面が表示される -->
-    <Loader></Loader>
-</div>
-
-<i class="c-icon ion-md-search"></i><span class="ion-md-search__text">画像クリックで拡大</span>
-
-  <!-- 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動（flex-direction: column; とし、縦並びにする） -->
-  <div
-    v-if="photo"
-    class="p-photo-detail"
-    :class="{ 'p-photo-detail--column': fullWidth }"
-  >
-    <!-- 画像・報告者名 -->
-    <!-- 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動 -->
-    <figure
-      class="p-photo-detail__panel p-photo-detail__image"
-      @click="fullWidth = ! fullWidth"
-    >
-      <img :src="photo.url" alt="">
-      <figcaption>報告者<br> {{ photo.owner.name }}</figcaption>
-    </figure>
-    <!-- グッジョブボタン・ダウンロードボタン（aタグ）・コメント一覧（内容・投稿者） -->
-    <div class="p-photo-detail__panel">
-      <!-- グッジョブボタン。クリック時、当PhotoDetailコンポーネント内にてイベント発生 -->
-      <button
-        class="c-button c-button--praise"
-        :class="{ 'c-button--praised': photo.praised_by_user }"
-        title="Praise photo"
-        @click="onPraiseClick"
-      >
-        <i class="c-icon ion-md-thumbs-up"></i>{{ photo.praises_count }}
-      </button>
-      <a
-        :href="`/photos/${photo.id}/download`"
-        class="c-button"
-        title="Download photo"
-      >
-        <i class="c-icon ion-md-download"></i>ダウンロード
-      </a>
-      <h2 class="p-photo-detail__title">
-        <i class="c-icon ion-md-people"></i>コメント
-      </h2>
-      <!-- コメントを表示 -->
-      <ul v-if="photo.comments.length > 0" class="p-photo-detail__comments">
-        <li
-          v-for="comment in photo.comments"
-          :key="comment.content"
-          class="p-photo-detail__commentItem"
-        >
-          <p class="p-photo-detail__commentBody">
-            {{ comment.content }}
-          </p>
-          <p class="p-photo-detail__commentInfo">
-            {{ comment.author.name }}
-          </p>
-
-<!-- 自分の投稿しか削除できないように。コメントの投稿者名とログインユーザー名が一致する場合のみ、コメント横に削除ボタンを表示 -->
-<div v-if="comment.author.name === username" >
-  <form @submit.prevent="delComment(comment)" class="p-form">
-    <div class="p-form__button">
-      <button type="submit" class="c-button c-button__del">コメントを削除</button>
+  <!-- ルートエレメント。ローディングコンポーネントを追加して使用 -->
+  <div>
+    <div v-show="loading" class="p-photo-detail" style="display: inherit;">
+        <!-- Loader.vueテンプレートが当て込まれ、ローディング画面が表示される -->
+        <Loader></Loader>
     </div>
-  </form>
-</div>
-
-        </li>
-      </ul>
-      <!-- コメントが無い場合 -->
-      <p v-else>まだ、コメントはありません。</p>
-      <!-- ログインしていたら、コメント投稿できる -->
-      <form v-if="isLogin" @submit.prevent="addComment" class="p-form">
-        <!-- エラーメッセージ -->
-        <div v-if="commentErrors" class="u-errors">
-          <ul v-if="commentErrors.content">
-            <li v-for="msg in commentErrors.content" :key="msg">{{ msg }}</li>
-          </ul>
+    <!-- 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動（flex-direction: column; とし、縦並びにする） -->
+    <div
+      v-if="photo"
+      class="p-photo-detail"
+      :class="{ 'p-photo-detail--column': fullWidth }"
+    >
+      <!-- 画像・報告者名 -->
+      <!-- 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動 -->
+      <figure
+        class="p-photo-detail__panel p-photo-detail__image"
+      >
+        <div class="p-photo-detail--zoom-in p-photo-detail--zoom-out" @click="fullWidth = ! fullWidth">
+          <img :src="photo.url" alt="">
+          <i class="c-icon ion-md-search"></i><span class="ion-md-search__text">クリックで拡大</span>
         </div>
-        <!-- 入力欄 -->
-        <textarea class="p-form__item" v-model="commentContent"></textarea>
-        <div class="p-form__button">
-          <button type="submit" class="c-button c-button--inverse">コメントを送信</button>
-        </div>
-      </form>
+        <figcaption>報告者<br> {{ photo.owner.name }}</figcaption>
+      </figure>
+      <!-- グッジョブボタン・ダウンロードボタン（aタグ）・コメント一覧（内容・投稿者） -->
+      <div class="p-photo-detail__panel">
+        <!-- グッジョブボタン。クリック時、当PhotoDetailコンポーネント内にてイベント発生 -->
+        <button
+          class="c-button c-button--praise"
+          :class="{ 'c-button--praised': photo.praised_by_user }"
+          title="Praise photo"
+          @click="onPraiseClick"
+        >
+          <i class="c-icon ion-md-thumbs-up"></i>{{ photo.praises_count }}
+        </button>
+        <a
+          :href="`/photos/${photo.id}/download`"
+          class="c-button"
+          title="Download photo"
+        >
+          <i class="c-icon ion-md-download"></i>ダウンロード
+        </a>
+        <h2 class="p-photo-detail__title">
+          <i class="c-icon ion-md-people"></i>コメント
+        </h2>
+        <!-- コメントを表示 -->
+        <ul v-if="photo.comments.length > 0" class="p-photo-detail__comments">
+          <li
+            v-for="comment in photo.comments"
+            :key="comment.content"
+            class="p-photo-detail__commentItem"
+          >
+            <p class="p-photo-detail__commentBody">
+              {{ comment.content }}
+            </p>
+            <p class="p-photo-detail__commentInfo">
+              {{ comment.author.name }}
+            </p>
+            <!-- 自分の投稿しか削除できないように。コメントの投稿者名とログインユーザー名が一致する場合のみ、コメント横に削除ボタンを表示 -->
+            <div v-if="comment.author.name === username" >
+              <form @submit.prevent="delComment(comment)" class="p-form">
+                <div class="p-form__button">
+                  <button type="submit" class="c-button c-button__del">コメントを削除</button>
+                </div>
+              </form>
+            </div>
+          </li>
+        </ul>
+        <!-- コメントが無い場合 -->
+        <p v-else>まだ、コメントはありません。</p>
+        <!-- ログインしていたら、コメント投稿できる -->
+        <form v-if="isLogin" @submit.prevent="addComment" class="p-form">
+          <!-- エラーメッセージ -->
+          <div v-if="commentErrors" class="u-errors">
+            <ul v-if="commentErrors.content">
+              <li v-for="msg in commentErrors.content" :key="msg">{{ msg }}</li>
+            </ul>
+          </div>
+          <!-- 入力欄 -->
+          <textarea class="p-form__item" v-model="commentContent"></textarea>
+          <div class="p-form__button">
+            <button type="submit" class="c-button c-button--inverse">コメントを送信</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-
-</div>
-
 </template>
 
 <script>
 import { OK, CREATED, UNPROCESSABLE_ENTITY } from '../util'
-
-// Loaderコンポーネントをインポート
-import Loader from '../components/Loader.vue'
+import Loader from '../components/Loader.vue' // <Loader> コンポーネントをインポート
 
 export default {
-
-components: {
-  // Loaderコンポーネントを登録
-  Loader
-},
-
+  components: {
+    Loader // <Loader> コンポーネントをインポート
+  },
   props: {
     id: { // router.jsから、/photos/:idの :id の部分に入る値がpropsとして渡ってくる
       type: String,
@@ -118,9 +107,7 @@ components: {
       fullWidth: false, // 写真クリック時に、写真の大きさを大きくし、コメント一覧パネルを下へ移動
       commentContent: '', // コメント <textarea> 入力値を参照
       commentErrors: null,
-
-loading: false // ローディングを表示させるかどうか
-
+      loading: false // ローディングを表示させるかどうか
     }
   },
   computed: {
@@ -133,19 +120,18 @@ loading: false // ローディングを表示させるかどうか
   },
   methods: {
     async fetchPhoto () {
+      // ローディングを表示
+      this.loading = true
 
-// ローディングを表示
-this.loading = true
+        const response = await axios.get(`/api/photos/${this.id}`)
 
-      const response = await axios.get(`/api/photos/${this.id}`)
+        if (response.status !== OK) {
+          this.$store.commit('error/setCode', response.status)
+          return false
+        }
 
-      if (response.status !== OK) {
-        this.$store.commit('error/setCode', response.status)
-        return false
-      }
-
-// 通信が終わったら、ローディングを非表示
-this.loading = false
+      // 通信が終わったら、ローディングを非表示
+      this.loading = false
 
       this.photo = response.data // レスポンスのJSON取得（response.data）
     },
@@ -176,20 +162,17 @@ this.loading = false
         ...this.photo.comments // オブジェクトを展開して、配列に追加
       ]
     },
+    async delComment (comment) {
 
-async delComment (comment) {
+      if(confirm('削除します。よろしいですか？')){ //　削除する前に、アラートで確認
 
-  if(confirm('削除します。よろしいですか？')){ //　削除する前に、アラートで確認
+      const response = await axios.delete(`/api/comments/${comment.id}`)
 
-  const response = await axios.delete(`/api/comments/${comment.id}`)
-
-  // 削除してすぐに、表示中のコメントを削除
-  const index = this.photo.comments.indexOf(comment) // 削除するコメントの配列が何番目かを取得
-  this.photo.comments.splice(index, 1) // 削除するコメントを、１つ分削除
-
-  }
-},
-
+      // 削除してすぐに、表示中のコメントを削除
+      const index = this.photo.comments.indexOf(comment) // 削除するコメントの配列が何番目かを取得
+      this.photo.comments.splice(index, 1) // 削除するコメントを、１つ分削除
+      }
+    },
     // グッジョブボタンクリックイベント発生時
     onPraiseClick () {
       // ログイン状態でないなら、ログインを促すアラート表示

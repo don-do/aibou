@@ -2212,9 +2212,12 @@ __webpack_require__.r(__webpack_exports__);
     // フォームの外枠をクリックすると、フォームを閉じる
     // windowにイベントリスナーをセット
     window.addEventListener('click', this._onBlurHandler = function (event) {
-      // フォームをクリックしても、何も操作しない。targetがコンポーネントの中に含まれているものならreturn
-      if (_this.$refs.elRoot.contains(event.target)) {
-        return;
+      // ログイン状態なら、フォームの表示・非表示の操作を行えるようにする。
+      if (_this.isLogin) {
+        // フォームをクリックしても、何も操作しない。targetがコンポーネントの中に含まれているものならreturn
+        if (_this.$refs.elRoot.contains(event.target)) {
+          return;
+        }
       }
 
       _this.$data.showForm = false;
@@ -2401,13 +2404,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 // レスポンスコードの定義をインポート。エラー処理のため
  // Loaderコンポーネントをインポート
 
@@ -2432,9 +2428,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // 選択中のファイルを格納
       commentContent: '',
       // 画像の説明
-      errors: null,
-      // エラーメッセージを格納
-      commentErrors: null
+      errors: null // エラーメッセージを格納
+
     };
   },
   methods: {
@@ -2481,8 +2476,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       this.$el.querySelector('input[type="file"]').value = null;
       this.errors = ''; // バリデーションエラー後、送信成功したら、エラーメッセージを消去
-
-      this.commentErrors = ''; // バリデーションエラー後、送信成功したら、エラーメッセージを消去
     },
     submit: function submit() {
       var _this2 = this;
@@ -2525,13 +2518,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 12:
                 responseComment = _context.sent;
 
-                // このコードを入れてしまうと、このコメントバリデに引っかかっているのに画像をpostできてしまう
-                // 画像投稿後にコメント入力できるので、今回は無しコメントバリデーション無し
-                // 画像説明コメントバリデーションエラー
-                // if (responseComment.status === UNPROCESSABLE_ENTITY) {
-                //   this.commentErrors = responseComment.data.errors
-                //   return false
-                // }
                 _this2.reset(); // 自動的にフォームが閉じるよう、inputイベントを発行。それに伴い、falseを発行
 
 
@@ -2870,19 +2856,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
- // Loaderコンポーネントをインポート
 
+ // <Loader> コンポーネントをインポート
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    // Loaderコンポーネントを登録
-    Loader: _components_Loader_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    Loader: _components_Loader_vue__WEBPACK_IMPORTED_MODULE_2__["default"] // <Loader> コンポーネントをインポート
+
   },
   props: {
     id: {
@@ -3214,16 +3194,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
  // cookieからvalueを返却するコード、ステータスコードをインポート
 
  // <Photo> コンポーネントをインポート
 
  // <Pagination> コンポーネントをインポート
-// Loaderコンポーネントをインポート
 
+ // <Loader> コンポーネントをインポート
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3231,8 +3208,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     // <Photo> コンポーネントを登録
     Pagination: _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     // <Pagination> コンポーネントを登録
-    // Loaderコンポーネントを登録
-    Loader: _components_Loader_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    Loader: _components_Loader_vue__WEBPACK_IMPORTED_MODULE_4__["default"] // <Loader> コンポーネントを登録
+
   },
   props: {
     // router.jsから渡される、pageプロパティを受け取る
@@ -4731,7 +4708,7 @@ var render = function() {
               "RouterLink",
               {
                 staticClass:
-                  "c-button c-button--link c-button__LoginRegister--color",
+                  "c-button c-button--link c-button__LoginRegister--color c-button__LoginRegister--footerPosition",
                 attrs: { to: "/login" }
               },
               [_vm._v("\n      ログイン / 登録\n    ")]
@@ -5093,8 +5070,6 @@ var render = function() {
       staticClass: "p-photo-form"
     },
     [
-      _c("h2", { staticClass: "p-title" }, [_vm._v("１.写真を投稿")]),
-      _vm._v(" "),
       _c(
         "div",
         {
@@ -5111,6 +5086,8 @@ var render = function() {
         [_c("Loader", [_vm._v("送信中...")])],
         1
       ),
+      _vm._v(" "),
+      _c("h2", { staticClass: "p-title" }, [_vm._v("１.写真を投稿")]),
       _vm._v(" "),
       _c(
         "form",
@@ -5163,20 +5140,6 @@ var render = function() {
           _vm.preview
             ? _c("output", { staticClass: "p-form__output" }, [
                 _c("img", { attrs: { src: _vm.preview, alt: "" } })
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.commentErrors
-            ? _c("div", { staticClass: "u-errors" }, [
-                _vm.commentErrors.content
-                  ? _c(
-                      "ul",
-                      _vm._l(_vm.commentErrors.content, function(msg) {
-                        return _c("li", { key: msg }, [_vm._v(_vm._s(msg))])
-                      }),
-                      0
-                    )
-                  : _vm._e()
               ])
             : _vm._e(),
           _vm._v(" "),
@@ -5651,11 +5614,6 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _c("i", { staticClass: "c-icon ion-md-search" }),
-    _c("span", { staticClass: "ion-md-search__text" }, [
-      _vm._v("画像クリックで拡大")
-    ]),
-    _vm._v(" "),
     _vm.photo
       ? _c(
           "div",
@@ -5666,16 +5624,28 @@ var render = function() {
           [
             _c(
               "figure",
-              {
-                staticClass: "p-photo-detail__panel p-photo-detail__image",
-                on: {
-                  click: function($event) {
-                    _vm.fullWidth = !_vm.fullWidth
-                  }
-                }
-              },
+              { staticClass: "p-photo-detail__panel p-photo-detail__image" },
               [
-                _c("img", { attrs: { src: _vm.photo.url, alt: "" } }),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "p-photo-detail--zoom-in p-photo-detail--zoom-out",
+                    on: {
+                      click: function($event) {
+                        _vm.fullWidth = !_vm.fullWidth
+                      }
+                    }
+                  },
+                  [
+                    _c("img", { attrs: { src: _vm.photo.url, alt: "" } }),
+                    _vm._v(" "),
+                    _c("i", { staticClass: "c-icon ion-md-search" }),
+                    _c("span", { staticClass: "ion-md-search__text" }, [
+                      _vm._v("クリックで拡大")
+                    ])
+                  ]
+                ),
                 _vm._v(" "),
                 _c("figcaption", [
                   _vm._v("報告者"),
@@ -5919,7 +5889,17 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "photo-list" },
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.loading,
+            expression: " ! loading"
+          }
+        ],
+        staticClass: "photo-list"
+      },
       [
         _c(
           "div",

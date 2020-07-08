@@ -16,7 +16,7 @@
 
   &:hover {
     border-color: $btnHover-background;
-    color: $btnHover-color;
+    color: $text-color_transparent;
   }
 
   .c-icon {
@@ -24,6 +24,8 @@
   }
 
   &--link {
+    background-color: $btnLink-background;
+    color: #222;
     border: 0;
   }
 
@@ -45,10 +47,15 @@
   }
 
   &__LoginRegister--color{
-    color:#fff;
+    color: #eee;
+  }
+
+  &__LoginRegister--footerPosition {
+    margin-bottom: 10px;
   }
 
   &__report{
+    background-color: $btnLink-background;
     color: #222;
   }
 

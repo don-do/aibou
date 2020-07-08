@@ -4,7 +4,7 @@
       <button v-if="isLogin" class="c-button c-button--link" @click="logout">
         ログアウト
       </button>
-      <RouterLink v-else class="c-button c-button--link c-button__LoginRegister--color" to="/login">
+      <RouterLink v-else class="c-button c-button--link c-button__LoginRegister--color c-button__LoginRegister--footerPosition" to="/login">
         ログイン / 登録
       </RouterLink>
     </footer>

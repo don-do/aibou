@@ -7,7 +7,6 @@ import PhotoDetail from './pages/PhotoDetail.vue'
 import Login from './pages/Login.vue'
 import SystemError from './pages/errors/System.vue' // システムエラー
 import NotFound from './pages/errors/NotFound.vue' // 404エラー
-
 // ストアをインポート。authストアのcheckゲッターを使用するため
 import store from './store'
 

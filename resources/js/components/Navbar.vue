@@ -51,9 +51,12 @@ export default {
   mounted() { // フォームの外枠をクリックすると、フォームを閉じる
     // windowにイベントリスナーをセット
     window.addEventListener('click', this._onBlurHandler = (event) => {
-      // フォームをクリックしても、何も操作しない。targetがコンポーネントの中に含まれているものならreturn
-      if (this.$refs.elRoot.contains(event.target)) {
-        return;
+      // ログイン状態なら、フォームの表示・非表示の操作を行えるようにする。
+      if (this.isLogin) {
+        // フォームをクリックしても、何も操作しない。targetがコンポーネントの中に含まれているものならreturn
+        if (this.$refs.elRoot.contains(event.target)) {
+          return;
+        }
       }
       this.$data.showForm = false;
     });

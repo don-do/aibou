@@ -133,7 +133,7 @@ main {
 #footer {
   display: flex;
   flex-direction: column;
-  min-height: 39vh;
+  min-height: 40vh;
 }
 
 @media screen and (max-width: 559px) {
@@ -147,7 +147,7 @@ main {
   align-items: center;
   border-top: 1px solid #f1f1f1;
   display: flex;
-  height: 5rem;
+  height: 4.8rem;
   justify-content: center;
   margin-top: auto;
 }
@@ -169,7 +169,7 @@ main {
 
 .c-button:hover {
   border-color: #333;
-  color: #C0C0C0;
+  color: #8a8a8a;
 }
 
 .c-button .c-icon {
@@ -177,6 +177,8 @@ main {
 }
 
 .c-button--link {
+  background-color: #C0C0C0;
+  color: #222;
   border: 0;
 }
 
@@ -198,10 +200,15 @@ main {
 }
 
 .c-button__LoginRegister--color {
-  color: #fff;
+  color: #eee;
+}
+
+.c-button__LoginRegister--footerPosition {
+  margin-bottom: 10px;
 }
 
 .c-button__report {
+  background-color: #C0C0C0;
   color: #222;
 }
 
@@ -664,7 +671,7 @@ input[type=file] {
   width: 100%;
 }
 
-.p-photo-detail--column .p-photo-detail__image {
+.p-photo-detail--column .p-photo-detail--zoom-out {
   cursor: zoom-out;
 }
 
@@ -674,8 +681,11 @@ input[type=file] {
   border-radius: 0.5em;
 }
 
-.p-photo-detail__image {
+.p-photo-detail--zoom-in {
   cursor: zoom-in;
+}
+
+.p-photo-detail__image {
   margin-bottom: 1.5rem;
 }
 

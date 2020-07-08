@@ -10,7 +10,7 @@
       width: 100%;
     }
 
-    #{$component}__image {
+    #{$component}--zoom-out {
       cursor: zoom-out;
     }
   }
@@ -21,8 +21,11 @@
     border-radius: .5em;
   }
 
-  &__image {
+  &--zoom-in {
     cursor: zoom-in;
+  }
+
+  &__image {
     margin-bottom: 1.5rem;
 
     figcaption {

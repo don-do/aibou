@@ -1,32 +1,25 @@
 <template>
   <div v-show="value" class="p-photo-form">
-    <h2 class="p-title">１.写真を投稿</h2>
     <div v-show="loading" class="p-panel">
       <!-- Loader.vueテンプレートを当て込み、<slot>Loading...<slot>に上書き。「送信中...」の文言を表示 -->
       <Loader>送信中...</Loader>
     </div>
-    <form v-show="! loading" class="p-form" @submit.prevent="submit"> <!-- デフォルトアクション（ブラウザ本来の挙動）のみ停止 -->
-      <div class="u-errors" v-if="errors">
-        <ul v-if="errors.photo">
-          <li v-for="msg in errors.photo" :key="msg">{{ msg }}</li>
-        </ul>
-      </div>
-
-<label class="c-button c-button__report p-form-file-btn">
-  <span>ファイルを選択</span>
-  <input class="p-form__item" type="file" @change="onFileChange">
-</label>
-
-      <output class="p-form__output" v-if="preview">
-        <img :src="preview" alt="">
-      </output>
-    <div v-if="commentErrors" class="u-errors">
-      <ul v-if="commentErrors.content">
-        <li v-for="msg in commentErrors.content" :key="msg">{{ msg }}</li>
-      </ul>
-    </div>
-    <h2 class="p-title">２.コメントを入力</h2>
-    <textarea class="p-form__item" v-model="commentContent"></textarea>
+      <h2 class="p-title">１.写真を投稿</h2>
+      <form v-show="! loading" class="p-form" @submit.prevent="submit"> <!-- デフォルトアクション（ブラウザ本来の挙動）のみ停止 -->
+        <div class="u-errors" v-if="errors">
+          <ul v-if="errors.photo">
+            <li v-for="msg in errors.photo" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
+          <label class="c-button c-button__report p-form-file-btn">
+            <span>ファイルを選択</span>
+            <input class="p-form__item" type="file" @change="onFileChange">
+          </label>
+          <output class="p-form__output" v-if="preview">
+            <img :src="preview" alt="">
+          </output>
+      <h2 class="p-title">２.コメントを入力</h2>
+      <textarea class="p-form__item" v-model="commentContent"></textarea>
       <div class="p-form__button">
         <button type="submit" class="c-button c-button--inverse">送信</button>
       </div>
@@ -57,8 +50,7 @@ export default {
       preview: null,
       photo: null, // 選択中のファイルを格納
       commentContent: '', // 画像の説明
-      errors: null, // エラーメッセージを格納
-      commentErrors: null
+      errors: null // エラーメッセージを格納
     }
   },
   methods: {
@@ -102,7 +94,6 @@ export default {
       // this.$elは、コンポーネントそのもののDOM要素
       this.$el.querySelector('input[type="file"]').value = null
       this.errors = '' // バリデーションエラー後、送信成功したら、エラーメッセージを消去
-      this.commentErrors = '' // バリデーションエラー後、送信成功したら、エラーメッセージを消去
     },
     async submit () {
       // ローディングを表示
@@ -127,13 +118,6 @@ export default {
       const responseComment = await axios.post(`/api/photos/${response.data.id}/comments`, {
         content: this.commentContent
       })
-      // このコードを入れてしまうと、このコメントバリデに引っかかっているのに画像をpostできてしまう
-      // 画像投稿後にコメント入力できるので、今回は無しコメントバリデーション無し
-      // 画像説明コメントバリデーションエラー
-      // if (responseComment.status === UNPROCESSABLE_ENTITY) {
-      //   this.commentErrors = responseComment.data.errors
-      //   return false
-      // }
 
       this.reset()
       // 自動的にフォームが閉じるよう、inputイベントを発行。それに伴い、falseを発行
