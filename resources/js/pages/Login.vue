@@ -46,7 +46,7 @@
             <li v-for="msg in registerErrors.password" :key="msg">{{ msg }}</li>
           </ul>
         </div>
-        <label for="username" class="p-form__label">氏名</label>
+        <label for="username" class="p-form__label">部署 / 役職：氏名</label>
         <input type="text" class="p-form__item" id="username" v-model="registerForm.name">
         <label for="email" class="p-form__label">Eメール</label>
         <input type="text" class="p-form__item" id="email" v-model="registerForm.email">
