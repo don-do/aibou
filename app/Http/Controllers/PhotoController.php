@@ -80,7 +80,7 @@ class PhotoController extends Controller
             DB::rollBack();
             // アップロードしたファイルを削除。DBとの不整合を避ける
             // Storage::disk('local')->delete('public/' . $photo->filename); NG。ファイル消えず
-            Storage::delete('public/'.$image->filename);
+            Storage::delete('public/'.$photo->filename);
             throw $exception;
         }
 
